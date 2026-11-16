@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import job_row %}
+{% block title %}Jobs{% endblock %}
+{% block body %}
+<div class="head">
+  <h1>Jobs</h1>
+  <div class="actions">
+    {% if counts.blocked %}<form method="post" action="/jobs/retry-blocked"><button class="btn ghost" title="Requeue every blocked job, e.g. after installing a tool">Retry {{ counts.blocked }} blocked</button></form>{% endif %}
+  </div>
+</div>
+<div class="filters">
+  <a class="chip {{ 'on' if not status }}" href="/jobs">all</a>
+  {% for s in ['queued','running','blocked','failed','done','cancelled'] %}
+  <a class="chip {{ 'on' if s == status }}" href="?status={{ s }}">{{ s }}{% if counts[s] %} <b>{{ counts[s] }}</b>{% endif %}</a>
+  {% endfor %}
+</div>
+<section class="panel">
+  {% if jobs %}
+  <table><tr><th>#</th><th>Kind</th><th>Status</th><th>Created</th><th>Error / reason</th></tr>
+  {% for j in jobs %}{{ job_row(j) }}{% endfor %}</table>
+  {% else %}<p class="empty">No jobs{{ ' with status ' ~ status if status }}.</p>{% endif %}
+</section>
+{% endblock %}
+{% block scripts %}<script>autoRefreshIf({{ 'true' if counts.queued or counts.running else 'false' }}, 4000)</script>{% endblock %}

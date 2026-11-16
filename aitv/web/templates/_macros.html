@@ -1,0 +1,29 @@
+{% macro badge(status) -%}
+<span class="badge s-{{ status }}">{{ status | replace('_', ' ') }}</span>
+{%- endmacro %}
+
+{% macro asset_card(a) -%}
+{% set m = a.meta | fromjson %}
+<a class="card" href="/library/{{ a.id }}">
+  <div class="thumb">
+    {% if m.derived and m.derived.thumb %}<img loading="lazy" src="/media/{{ a.id }}/thumb" alt="">
+    {% elif m.derived and m.derived.waveform %}<img loading="lazy" class="wave" src="/media/{{ a.id }}/waveform" alt="">
+    {% else %}<span class="ph">{{ a.category }}</span>{% endif %}
+    {% if a.duration_s %}<span class="dur">{{ a.duration_s | duration }}</span>{% endif %}
+  </div>
+  <div class="cap">
+    <span class="t">{{ a.title or a.original_name }}</span>
+    <span class="sub">{{ a.category }}{% if a.status != 'ready' %} · {{ badge(a.status) }}{% endif %}</span>
+  </div>
+</a>
+{%- endmacro %}
+
+{% macro job_row(j) -%}
+<tr>
+  <td><a href="/jobs/{{ j.id }}">#{{ j.id }}</a></td>
+  <td><code>{{ j.kind }}</code></td>
+  <td>{{ badge(j.status) }}</td>
+  <td class="muted">{{ j.created_at | ago }}</td>
+  <td class="err">{{ (j.error or '')[:110] }}</td>
+</tr>
+{%- endmacro %}

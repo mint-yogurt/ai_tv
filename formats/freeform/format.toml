@@ -1,0 +1,38 @@
+# The make form's format: whatever the producer types is only a label for the writer. No description,
+# no house prompts, no rolls; the prompt is the whole brief.
+
+[format]
+name = "Freeform"
+description = ""
+
+[subject]
+# Only if the piece advertises or promotes something: the outline names it and its kind (or a "type"
+# tag decides the kind). Publishing files it by kind; a piece with no subject goes to the shows folder.
+kinds = ["product", "hotline", "fake_show"]
+
+[pipeline]
+# Voice comes before the shot plan: shot lengths are taken from the spoken lines.
+stages = ["outline", "screenplay", "cast", "voice", "plan", "sound", "render", "edit", "assemble", "look", "qc", "review", "publish"]
+
+[sources]
+still_motion = 0.5
+stock = 0.3
+manual = 0.2
+paid_clip = 0.0
+
+[music]
+source = "midigen"
+cue = "bed"
+# Music only where the script asks for it; no bed under every piece.
+always = false
+reasoning = "low"
+tail_s = 2.0
+repairs = 2
+
+[voice]
+read_cards = true
+
+[look]
+preset = "clean"
+aspect = "4:3"
+height = 480

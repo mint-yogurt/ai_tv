@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Formats{% endblock %}
+{% block body %}
+<h1>Formats</h1>
+{% for it in items %}
+<details class="panel" {{ 'open' if loop.first }}>
+  <summary><strong>{{ it.fmt.format.name }}</strong> <code>{{ it.fmt.format.id }}</code> <span class="muted">{{ it.fmt.format.description }}</span></summary>
+  <ol class="stages">{% for s in it.fmt.pipeline.stages %}<li class="{{ 'todo' if s not in built }}">{{ s }}</li>{% endfor %}</ol>
+  {% if it.prompts %}<p class="muted small">Prompts: {% for p in it.prompts %}<code>{{ p }}</code> {% endfor %}</p>{% endif %}
+  <pre>{{ it.toml }}</pre>
+</details>
+{% endfor %}
+{% endblock %}

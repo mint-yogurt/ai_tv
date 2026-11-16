@@ -1,0 +1,500 @@
+{
+ "name": "cereal_killers",
+ "files": {
+  "midi": "cereal_killers.mid",
+  "wav": "cereal_killers.wav",
+  "composition": "cereal_killers.json",
+  "manifest": "cereal_killers.render.json"
+ },
+ "rendered_at": "2026-11-15T10:04:32Z",
+ "render_seconds": 2.47,
+ "fluidsynth": "FluidSynth runtime version 2.3.1",
+ "sample_rate": 44100,
+ "bits": 16,
+ "reverb": "hall",
+ "wav_seconds": 32.048,
+ "gain_db": 1.6,
+ "levels": {
+  "peak_dbfs": -1.0,
+  "rms_dbfs": -21.3,
+  "first_sound_s": 0.002,
+  "last_sound_s": 31.09
+ },
+ "midi": {
+  "type": 1,
+  "tracks": 13,
+  "ticks_per_beat": 480,
+  "seconds": 30.0,
+  "notes": 418,
+  "channels": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ],
+  "hanging_notes": 0,
+  "unmatched_note_offs": 0
+ },
+ "soundfonts": {
+  "gm": {
+   "file": "gm.sf2",
+   "stamp": {
+    "size": 3208108,
+    "mtime": 1794463878
+   }
+  }
+ },
+ "summary": {
+  "title": "Cereal Killers promo",
+  "bars": 15,
+  "time_signature": "4/4",
+  "seconds": 30.0,
+  "tracks": [
+   {
+    "name": "Music box",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 10,
+    "preset": "Music Box",
+    "channel": 1,
+    "notes": 20,
+    "first_note_s": 0.0,
+    "last_note_end_s": 28.0,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Halo pad",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 94,
+    "preset": "Halo Pad",
+    "channel": 2,
+    "notes": 10,
+    "first_note_s": 0.0,
+    "last_note_end_s": 8.0,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Timpani",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 47,
+    "preset": "Timpani",
+    "channel": 3,
+    "notes": 44,
+    "first_note_s": 0.0,
+    "last_note_end_s": 29.25,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Orchestra hit",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 55,
+    "preset": "OrchestraHit",
+    "channel": 5,
+    "notes": 8,
+    "first_note_s": 8.0,
+    "last_note_end_s": 29.5,
+    "first_note_bar": 5
+   },
+   {
+    "name": "Contrabass",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 43,
+    "preset": "Contrabass",
+    "channel": 6,
+    "notes": 1,
+    "first_note_s": 8.0,
+    "last_note_end_s": 14.0,
+    "first_note_bar": 5
+   },
+   {
+    "name": "Trombones",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 57,
+    "preset": "Trombone",
+    "channel": 7,
+    "notes": 6,
+    "first_note_s": 14.0,
+    "last_note_end_s": 15.95,
+    "first_note_bar": 8
+   },
+   {
+    "name": "Horns",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 60,
+    "preset": "French Horns",
+    "channel": 8,
+    "notes": 6,
+    "first_note_s": 14.0,
+    "last_note_end_s": 15.95,
+    "first_note_bar": 8
+   },
+   {
+    "name": "Synth brass",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 62,
+    "preset": "Synth Brass1",
+    "channel": 4,
+    "notes": 24,
+    "first_note_s": 16.0,
+    "last_note_end_s": 25.95,
+    "first_note_bar": 9
+   },
+   {
+    "name": "Distortion guitar",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 30,
+    "preset": "DistortionGt",
+    "channel": 9,
+    "notes": 127,
+    "first_note_s": 16.0,
+    "last_note_end_s": 29.95,
+    "first_note_bar": 9
+   },
+   {
+    "name": "Picked bass",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 34,
+    "preset": "Picked Bs.",
+    "channel": 11,
+    "notes": 42,
+    "first_note_s": 16.0,
+    "last_note_end_s": 29.95,
+    "first_note_bar": 9
+   },
+   {
+    "name": "Strings",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 48,
+    "preset": "Strings",
+    "channel": 12,
+    "notes": 4,
+    "first_note_s": 26.0,
+    "last_note_end_s": 30.0,
+    "first_note_bar": 14
+   },
+   {
+    "name": "Drums",
+    "soundfont": "gm",
+    "bank": 128,
+    "program": 16,
+    "preset": "Power",
+    "channel": 10,
+    "notes": 126,
+    "first_note_s": 8.0,
+    "last_note_end_s": 29.25,
+    "first_note_bar": 5
+   }
+  ]
+ },
+ "stems": [
+  {
+   "soundfont": "gm",
+   "channel": 1,
+   "tracks": [
+    "Music box"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -18.3,
+    "rms_dbfs": -42.0,
+    "first_sound_s": 0.002,
+    "last_sound_s": 29.254
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 2,
+   "tracks": [
+    "Halo pad"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -18.9,
+    "rms_dbfs": -40.6,
+    "first_sound_s": 0.002,
+    "last_sound_s": 9.892
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 3,
+   "tracks": [
+    "Timpani"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -8.6,
+    "rms_dbfs": -31.0,
+    "first_sound_s": 0.002,
+    "last_sound_s": 30.942
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 5,
+   "tracks": [
+    "Orchestra hit"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -10.1,
+    "rms_dbfs": -35.1,
+    "first_sound_s": 8.003,
+    "last_sound_s": 31.091
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 6,
+   "tracks": [
+    "Contrabass"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -23.5,
+    "rms_dbfs": -39.4,
+    "first_sound_s": 8.004,
+    "last_sound_s": 16.018
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 7,
+   "tracks": [
+    "Trombones"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -10.2,
+    "rms_dbfs": -36.1,
+    "first_sound_s": 14.002,
+    "last_sound_s": 17.707
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 8,
+   "tracks": [
+    "Horns"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -9.4,
+    "rms_dbfs": -32.5,
+    "first_sound_s": 14.004,
+    "last_sound_s": 17.899
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 4,
+   "tracks": [
+    "Synth brass"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -11.4,
+    "rms_dbfs": -29.0,
+    "first_sound_s": 16.002,
+    "last_sound_s": 27.525
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 9,
+   "tracks": [
+    "Distortion guitar"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -6.0,
+    "rms_dbfs": -29.0,
+    "first_sound_s": 16.003,
+    "last_sound_s": 31.305
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 11,
+   "tracks": [
+    "Picked bass"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -11.7,
+    "rms_dbfs": -29.9,
+    "first_sound_s": 16.003,
+    "last_sound_s": 30.903
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 12,
+   "tracks": [
+    "Strings"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -18.5,
+    "rms_dbfs": -42.1,
+    "first_sound_s": 26.006,
+    "last_sound_s": 31.181
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 10,
+   "tracks": [
+    "Drums"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -4.1,
+    "rms_dbfs": -26.8,
+    "first_sound_s": 8.002,
+    "last_sound_s": 30.737
+   }
+  }
+ ],
+ "warnings": [
+  "Distortion guitar: 12 notes outside the usual range for a guitar (E2-E6), e.g. D2"
+ ]
+}

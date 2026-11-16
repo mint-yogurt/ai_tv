@@ -1,0 +1,138 @@
+{
+ "laugh_1": {
+  "asset_id": 71,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/laugh_1.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/cb/cb10c35f3ec627a20fd4271561f3f5718aa543ec3201c19ef79fc43499c2daac.mp3",
+  "title": "Laugh Track 1.mp3",
+  "landing": "https://freesound.org/people/LittleRainySeasons/sounds/395410",
+  "seconds": 2.6
+ },
+ "laugh_2": {
+  "asset_id": 72,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/laugh_2.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/c2/c205a5a83eac0c2f330b27f1108f9084cadb8ed4ddb0da7d05c4e3e4afc78689.mp3",
+  "title": "Laugh Track 2.mp3",
+  "landing": "https://freesound.org/people/LittleRainySeasons/sounds/395409",
+  "seconds": 5.6
+ },
+ "laugh_5": {
+  "asset_id": 73,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/laugh_5.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/7b/7b8518eda55e05debd19aa5b1ca39823226b96aadb9788f056d2b64f715066d7.mp3",
+  "title": "Laugh Track 5.mp3",
+  "landing": "https://freesound.org/people/LittleRainySeasons/sounds/395413",
+  "seconds": 3.7
+ },
+ "crowd_laugh": {
+  "asset_id": 74,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/crowd_laugh.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/af/af7201895c15c60c94e54764acf1d6d10e7874927d5306b25c2f8f79b4c36819.mp3",
+  "title": "Crowd Laugh.wav",
+  "landing": "https://freesound.org/people/kelsey_w/sounds/467042",
+  "seconds": 2.9
+ },
+ "laugh_claps": {
+  "asset_id": 75,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/laugh_claps.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/ba/bad982c30225bba40c40add152a31e95a544079ba99418aa3621f17396280596.mp3",
+  "title": "smallAudienceLaughsThenClaps.wav",
+  "landing": "https://freesound.org/people/oniwe/sounds/32868",
+  "seconds": 14.8
+ },
+ "cheer_clap": {
+  "asset_id": 76,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/cheer_clap.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/ae/ae7ff227529f45251f10ad210193104bdd4c2206a5f7cf835bdb82ed3cbb3cd0.mp3",
+  "title": "cheering and clapping crowd 1",
+  "landing": "https://freesound.org/people/AlaskaRobotics/sounds/221568",
+  "seconds": 14.2
+ },
+ "aww": {
+  "asset_id": 77,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/aww.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/66/6648ca3ec87a6d4ccaafc139bf1c7b6a3629c1888101630c4003428df152ce3b.mp3",
+  "title": "aww.wav",
+  "landing": "https://freesound.org/people/phmiller42/sounds/124996",
+  "seconds": 2.0
+ },
+ "wine_pour": {
+  "asset_id": 78,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/wine_pour.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/59/59f7bb7213093a05cff8a799348de0b230e617c33407d9dd8ff13a0a3791187c.mp3",
+  "title": "Pouring Glass of Wine from Bottle",
+  "landing": "https://freesound.org/people/nebulousflynn/sounds/220303",
+  "seconds": 9.5
+ },
+ "cork": {
+  "asset_id": 79,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/cork.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/9c/9c4a914999ba4fd588289da4a411a38d047c3a8bb35cde8f7ba9042bdc1bfa0b.mp3",
+  "title": "Popping the cork off a champagne bottle: Loud pop, light bubbles. Slight reverb tail. Recorded with ZoomH6, with Rifle Microphone, a compressor was used to ensure no clipping.",
+  "landing": "https://freesound.org/people/Kate_is_yellow/sounds/708201",
+  "seconds": 1.9
+ },
+ "fireplace": {
+  "asset_id": 80,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/fireplace.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/2f/2f19450a3c54653b0afaa525d8cf48c76d66148a3a1a2262d4cdadeddda8baf7.mp3",
+  "title": "Fireplace Crackles",
+  "landing": "https://freesound.org/people/WavJunction.com/sounds/512685",
+  "seconds": 16.1
+ },
+ "harp": {
+  "asset_id": 81,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/harp.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/b7/b7c8a694943f31b737a88ce120c695e8f64603637bbc741366bdfe9113064d0f.mp3",
+  "title": "Harp Glissando",
+  "landing": "https://freesound.org/people/everythingsounds/sounds/594961",
+  "seconds": 8.4
+ },
+ "cheese_cut": {
+  "asset_id": 82,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/cheese_cut.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/4b/4bfb96339cfefcdc8027562dff52666a488dd8d3eac4943b118ae62c71834030.mp3",
+  "title": "cuttingMozarella.flac",
+  "landing": "https://freesound.org/people/qubodup/sounds/87507",
+  "seconds": 15.6
+ },
+ "stamp": {
+  "asset_id": 83,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/stamp.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/e7/e7b35604edcb9a3c6776f22371c08ff3b0618b93ad090e5800a603fa03803a2e.mp3",
+  "title": "17_stamp, rubber, plastic.wav",
+  "landing": "https://freesound.org/people/15FPanska_KristynaHaupt/sounds/461888",
+  "seconds": 15.6
+ },
+ "clink": {
+  "asset_id": 84,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/clink.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/ea/ea42e6ee7783f2112e31820fe6a1e0bc1a5a125ac96ac3ee04b242342a2feeff.mp3",
+  "title": "Wine glasses cheers",
+  "landing": "https://freesound.org/people/Mega-X-stream/sounds/429028",
+  "seconds": 1.1
+ },
+ "restaurant": {
+  "asset_id": 85,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/restaurant.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/a8/a817bac17f8962c2d55349cb9f2282242277a3ab87b05b0324357c4b906b676d.mp3",
+  "title": "restaurant ambience",
+  "landing": "https://freesound.org/people/soundmast123/sounds/504900",
+  "seconds": 20.1
+ },
+ "record_scratch": {
+  "asset_id": 86,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/record_scratch.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/40/40bf9575367f4f7c4c7672bc0d5e20693b0548f734f1e1280f6feb672ef6c725.mp3",
+  "title": "Record Scratch #4",
+  "landing": "https://freesound.org/people/musicvision31/sounds/431777",
+  "seconds": 1.9
+ },
+ "tape_screech": {
+  "asset_id": 87,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_prime_cheese_promo/src/sfx/tape_screech.mp3",
+  "library_path": "/home/mint/ai_tv/library/store/a7/a726ef1484c0c70bc4c7061f79ae789deaa39b9f59fd906b976d228abbd53408.mp3",
+  "title": "screeching tape rewind",
+  "landing": "https://freesound.org/people/theshaggyfreak/sounds/274938",
+  "seconds": 4.5
+ }
+}

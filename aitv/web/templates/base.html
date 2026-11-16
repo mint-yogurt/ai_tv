@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}AI TV{% endblock %} · AI TV</title>
+<link rel="stylesheet" href="/static/style.css">
+<!-- ChupTV top bar, served by the director (~/chuptv_director); links every control room. -->
+<script>(s=>{s.src=`//${location.hostname}:8430/topbar.js`;document.head.append(s)})(document.createElement("script"))</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='1' y='3' width='14' height='10' rx='2' fill='%2378c88c'/><rect x='3' y='5' width='10' height='6' rx='1' fill='%23141714'/></svg>">
+</head>
+<body>
+{# Five sections; each page (by template name) belongs to one, and some to a sub-tab within it. #}
+{% set sections = [
+  ("make", "Make", "/", [("make", "New", "/"), ("ideas", "Drafts", "/ideas"), ("notepad", "Notepad", "/notepad")]),
+  ("productions", "Productions", "/productions", []),
+  ("library", "Library", "/library", [("library", "Assets", "/library"), ("world", "World", "/world"), ("upload", "Upload", "/upload"), ("find", "Find online", "/find"), ("soundfonts", "SoundFonts", "/soundfonts")]),
+  ("tests", "Tests", "/tests", []),
+  ("system", "System", "/system", [("dashboard", "Status", "/system"), ("jobs", "Jobs", "/jobs"), ("formats", "Formats", "/formats")]),
+] %}
+{% set tab = {"asset": "library", "entity": "world", "soundfont": "soundfonts", "job": "jobs", "production": "productions"}.get(nav, nav) %}
+{% set ns = namespace(section=none) %}
+{% for key, label, href, subs in sections %}{% if tab == key or tab in subs | map(attribute=0) | list %}{% set ns.section = key %}{% endif %}{% endfor %}
+<header class="top">
+  <a class="brand" href="/"><span class="tv">▣</span> AI TV</a>
+  <nav>
+    {% for key, label, href, subs in sections %}<a href="{{ href }}" class="{{ 'on' if ns.section == key }}">{{ label }}</a>{% endfor %}
+  </nav>
+  <span id="pulse" class="pill" title="worker status">…</span>
+</header>
+{% for key, label, href, subs in sections if key == ns.section and subs %}
+<nav class="sub">{% for k, l, h in subs %}<a href="{{ h }}" class="{{ 'on' if tab == k }}">{{ l }}</a>{% endfor %}</nav>
+{% endfor %}
+<main>
+{% block body %}{% endblock %}
+</main>
+<script src="/static/app.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

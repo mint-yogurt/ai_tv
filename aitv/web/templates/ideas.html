@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}Drafts{% endblock %}
+{% block body %}
+<div class="head"><h1>Drafts</h1></div>
+
+<section>
+  <div>
+    {% for i in ideas %}
+    <details class="panel idea" {{ 'open' if loop.first and i.status == 'queued' }}>
+      <summary><strong>{{ i.title }}</strong> {{ badge(i.status) }} <span class="muted">{{ i.format or 'any format' }} · {{ i.created_at | ago }}</span></summary>
+      <form class="stack" method="post" action="/ideas/{{ i.id }}">
+        <label>Title <input name="title" value="{{ i.title }}" required></label>
+        <label>Pitch <textarea name="body" rows="4">{{ i.body }}</textarea></label>
+        <div class="row">
+          <label>Format <select name="format"><option value="">any</option>{% for f in formats %}<option value="{{ f.format.id }}" {{ 'selected' if f.format.id == i.format }}>{{ f.format.name }}</option>{% endfor %}</select></label>
+          <label>Status <select name="status">{% for s in ['queued','in_production','done','shelved'] %}<option {{ 'selected' if s == i.status }}>{{ s }}</option>{% endfor %}</select></label>
+        </div>
+        <label>Tags <textarea name="pins" rows="3" class="mono">{{ format_pins(i.pins | fromjson) }}</textarea></label>
+        <div class="row">
+          <button class="btn">Save</button>
+          {% if i.status == 'queued' %}<a class="btn ghost" href="/?idea={{ i.id }}">Open in Make →</a>{% endif %}
+        </div>
+      </form>
+      <form method="post" action="/ideas/{{ i.id }}/delete" onsubmit="return confirm('Delete this idea?')"><button class="btn tiny danger">delete</button></form>
+    </details>
+    {% else %}<p class="empty">No drafts. <a href="/">Make something</a>.</p>{% endfor %}
+  </div>
+</section>
+{% endblock %}

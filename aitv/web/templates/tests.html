@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Tests{% endblock %}
+{% block body %}
+<div class="head"><h1>Tests</h1></div>
+{% if areas %}
+<div class="filters">
+  <a class="chip {{ 'on' if not area }}" href="/tests">all</a>
+  {% for a in areas %}<a class="chip {{ 'on' if a == area }}" href="?area={{ a }}">{{ a }}</a>{% endfor %}
+</div>
+{% endif %}
+
+{% for t in tests %}
+<details class="panel test" data-folder="{{ t.folder }}" data-area="{{ area }}">
+  <summary>{{ t.folder }} <span class="muted small">{{ t.when | ago }} · {{ t.count }} item{{ 's' if t.count != 1 }}</span></summary>
+  <div class="folder-body muted small">loading…</div>
+</details>
+{% else %}
+<p class="empty">No test output yet. Anything saved under <code>{{ root }}/&lt;area&gt;/&lt;test&gt;/</code> appears here.</p>
+{% endfor %}
+{% endblock %}
+{% block scripts %}<script>initTests()</script>{% endblock %}

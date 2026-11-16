@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "_macros.html" import asset_card %}
+{% block title %}Find online{% endblock %}
+{% block body %}
+<div class="head">
+  <h1>Find online</h1>
+  <div class="actions">
+    <span class="muted small">Downloads: {{ storage.count }} files, {{ '%.2f' % (storage.bytes / 1e9) }} of {{ '%.0f' % (storage.cap_bytes / 1e9) }} GB</span>
+    <form method="post" action="/library/cull" onsubmit="return confirm('Delete online downloads no production has used and no World entity links to (older than the cleanup age, then oldest first while over the cap)? They can be fetched again.')"><button class="btn ghost">Clean up now</button></form>
+  </div>
+</div>
+
+<form class="filters" method="get">
+  {% for key, s in sources.items() %}<a class="chip {{ 'on' if key == source }}" href="?source={{ key }}&kind={{ kind if kind in s.kinds else s.kinds[0] }}&q={{ q | urlencode }}">{{ s.name }}</a>{% endfor %}
+  <input type="hidden" name="source" value="{{ source }}">
+  <select name="kind">{% for k in sources[source].kinds %}<option {{ 'selected' if k == kind }}>{{ k }}</option>{% endfor %}</select>
+  <input type="search" name="q" value="{{ q }}" placeholder="search, e.g. cash register, 1980s kitchen" autofocus>
+  <button class="btn">Search</button>
+</form>
+
+{% if added %}<p class="note">Downloading "{{ added }}". It shows up in the library when it's ready (<a href="/jobs">jobs</a>).</p>{% endif %}
+{% if error %}<pre class="err-box">{{ error }}</pre>{% endif %}
+
+{% if results %}
+<div class="cards">
+  {% for r in results %}
+  <div class="card">
+    <div class="thumb">
+      {% if r.thumb %}<img loading="lazy" src="{{ r.thumb }}" alt="" referrerpolicy="no-referrer">{% else %}<span class="ph">{{ r.kind }}</span>{% endif %}
+      {% if r.seconds %}<span class="dur">{{ r.seconds | duration }}</span>{% endif %}
+    </div>
+    <div class="cap">
+      <span class="t" title="{{ r.title }}">{{ r.title }}</span>
+      {% if r.kind == 'audio' and r.preview %}<audio class="inline" controls preload="none" src="{{ r.preview }}"></audio>{% endif %}
+      {% if r.landing %}<a class="sub" href="{{ r.landing }}" target="_blank" rel="noreferrer">view on {{ sources[r.source].name }} ↗</a>{% endif %}
+      <form method="post" action="/find/add" class="stack tight">
+        <input type="hidden" name="result" value="{{ r | tojson | forceescape }}">
+        <input type="hidden" name="q" value="{{ q }}">
+        <select name="category">{% for c in categories if c != 'voice' %}<option {{ 'selected' if c == default_category }}>{{ c }}</option>{% endfor %}</select>
+        <input name="tags" placeholder="tags, comma separated" value="{{ q }}">
+        <button class="btn tiny">Add to library</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% elif q and not error %}<p class="empty">Nothing found for "{{ q }}". Try fewer or plainer words.</p>{% endif %}
+
+{% if recent %}
+<section class="panel"><h2>Recently downloaded</h2>
+  <div class="cards">{% for a in recent %}{{ asset_card(a) }}{% endfor %}</div>
+</section>
+{% endif %}
+{% endblock %}

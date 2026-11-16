@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ font.id }} · SoundFonts{% endblock %}
+{% block body %}
+<div class="head"><h1>{{ font.info.name or font.file }} <span class="muted small"><code>{{ font.id }}</code></span></h1></div>
+<p><a href="/soundfonts">← all SoundFonts</a></p>
+<section class="panel">
+  <dl class="meta">
+    <dt>file</dt><dd>{{ font.path }}</dd>
+    <dt>presets</dt><dd>{{ font.preset_count }} in banks {{ font.banks | join(', ') }}; {{ font.sample_mb }} MB of samples</dd>
+    {% for k, v in font.info.items() if k != 'name' %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}
+    {% if font.description %}<dt>description</dt><dd>{{ font.description }}</dd>{% endif %}
+  </dl>
+</section>
+<div class="filters">
+  <a class="chip {{ 'on' if not family }}" href="?">all</a>
+  {% for fam in families %}<a class="chip {{ 'on' if fam == family }}" href="?family={{ fam | urlencode }}">{{ fam }}</a>{% endfor %}
+  <a class="chip {{ 'on' if family == 'drums' }}" href="?family=drums">drum kits</a>
+</div>
+<section class="panel">
+  <p class="muted small">Press play to render a short test phrase on that preset (a second or so the first time). "Measured" comes from one
+  held note rendered dry; "heard" notes come from <code>~/MIDIgen/config/notes.toml</code>.</p>
+  <table>
+    <tr><th>bank:prog</th><th>preset</th><th>GM slot</th><th>measured</th><th>level</th><th>audition</th></tr>
+    {% for p in presets %}
+    <tr>
+      <td><code>{{ p.bank }}:{{ p.program }}</code></td>
+      <td>{{ p.name }}{% if p.listened %}<br><span class="small">heard: {{ p.listened }}</span>{% endif %}</td>
+      {% if p.kind == 'drum kit' %}
+      <td>drum kit (channel 10)</td>
+      <td class="small">{{ p.drums | length }} drum notes{% if p.gm_drum_notes_missing %}; missing GM {{ p.gm_drum_notes_missing | join(', ') }}{% endif %}</td>
+      <td></td>
+      {% else %}
+      <td class="small">{{ p.gm_family }}: {{ p.gm_program }}</td>
+      <td class="small">{{ p.measured_words.summary if p.measured_words else 'not measured' }}</td>
+      <td class="small">{{ p.measured.level_db if p.measured else '' }}</td>
+      {% endif %}
+      <td><audio controls preload="none" src="/soundfonts/{{ font.id }}/audition/{{ p.bank }}/{{ p.program }}.wav"></audio></td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
+{% endblock %}

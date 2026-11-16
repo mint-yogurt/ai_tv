@@ -1,0 +1,23 @@
+{
+  "prompt": "A 1990s luxury television commercial: a huge whole wheel of aged golden cheddar with a crumbly rind sits on a dark slate board in the centre of the frame, in a candlelit stone wine cellar. A crystal glass of red wine and a bunch of dark grapes beside it, a silver cheese knife resting against the wheel. Warm golden candlelight, rich deep shadows, shallow depth of field, soft bokeh of candles and wine bottles behind. Opulent, pretentious, glossy, a 35mm film still, subtle film grain.",
+  "model": "tencent/hy-image-v3.5-preview",
+  "usage": {
+    "prompt_tokens": 122,
+    "completion_tokens": 15000,
+    "total_tokens": 15122,
+    "cost": 0.024,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.024,
+      "upstream_inference_prompt_cost": 0,
+      "upstream_inference_completions_cost": 0.024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 15000
+    }
+  }
+}

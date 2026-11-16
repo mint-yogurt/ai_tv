@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "_macros.html" import asset_card %}
+{% block title %}Library{% endblock %}
+{% block body %}
+<div class="head">
+  <h1>Library</h1>
+  <div class="actions">
+    <a class="btn" href="/upload{{ '?category=' ~ category if category }}">Upload</a>
+    <form method="post" action="/scan"><button class="btn ghost" title="Pick up files dropped into library/inbox/ now">Scan inbox</button></form>
+  </div>
+</div>
+<form class="filters" method="get">
+  <a class="chip {{ 'on' if not category }}" href="?q={{ q }}">all</a>
+  {% for c in categories %}<a class="chip {{ 'on' if c == category }}" href="?category={{ c }}&q={{ q }}">{{ c }}</a>{% endfor %}
+  <input type="hidden" name="category" value="{{ category }}">
+  <input type="search" name="q" value="{{ q }}" placeholder="search title, file name, tags">
+  <select name="status" onchange="this.form.submit()">
+    <option value="">any status</option>
+    {% for s in ['ready','pending','processing','failed','culled'] %}<option {{ 'selected' if s == status }}>{{ s }}</option>{% endfor %}
+  </select>
+</form>
+<details class="panel"><summary><strong>Generate images</strong> <span class="muted small">from a prompt, not attached to anything</span></summary>
+  {% with entity=None, prompt='' %}{% include "_generate.html" %}{% endwith %}
+</details>
+{% if assets %}
+<div class="cards">{% for a in assets %}{{ asset_card(a) }}{% endfor %}</div>
+{% else %}
+<p class="empty">Nothing here yet. Upload files, or drop them into <code>library/inbox/&lt;images|voices|sfx|music|footage&gt;/</code> on the server.</p>
+{% endif %}
+{% endblock %}
+{% block scripts %}<script>autoRefreshIf({{ 'true' if assets | selectattr('status', 'in', ['pending', 'processing']) | list else 'false' }}, 4000)</script>{% endblock %}

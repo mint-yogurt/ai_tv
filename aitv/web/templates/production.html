@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, job_row %}
+{% set rolls = prod.rolls | fromjson %}
+{% set stages = fmt.pipeline.stages if fmt.pipeline else [] %}
+{% set length = opts.length or {} %}
+{% block title %}{{ prod.title }}{% endblock %}
+{% block body %}
+<div class="head">
+  <h1>{{ prod.title }} {{ badge(prod.status) }}</h1>
+  <div class="actions">
+    {% if prod.status not in ['running', 'done'] %}<form method="post" action="/productions/{{ prod.id }}/run"><button class="btn">{{ 'Resume' if prod.status in ['blocked', 'failed', 'cancelled', 'waiting_on_you'] else 'Run' }}</button></form>{% endif %}
+    {% if prod.status not in ['done', 'cancelled'] %}<form method="post" action="/productions/{{ prod.id }}/cancel"><button class="btn ghost">{{ 'Stop' if prod.status == 'running' else 'Cancel' }}</button></form>{% endif %}
+    {% if latest.look and (prod.status in ['done', 'failed'] or (prod.status == 'waiting_on_you' and prod.stage == 'publish')) %}<form method="post" action="/productions/{{ prod.id }}/publish"><button class="btn {{ 'ghost' if latest.publish }}">{{ 'Publish anyway' if prod.status == 'waiting_on_you' else 'Publish again' if latest.publish else 'Publish to ChupTV' }}</button></form>{% endif %}
+    {% if prod.idea_id %}<a class="btn ghost" href="/?idea={{ prod.idea_id }}" title="Open its settings in a new draft">Make again</a>{% endif %}
+  </div>
+</div>
+<ol class="stages">
+  {% set idx = stages.index(prod.stage) if prod.stage in stages else (stages | length if prod.status == 'done' else 0) %}
+  {% for s in stages %}<li class="{{ 'done' if loop.index0 < idx else ('now' if loop.index0 == idx and prod.status != 'done' else '') }} {{ 'todo' if s not in built }}">{{ s }}</li>{% endfor %}
+</ol>
+{% if prod.note %}<p class="note">{{ prod.note }}</p>{% endif %}
+
+{% for req in pending %}
+<section class="panel waiting" id="write-{{ req.stage }}">
+  <h2>Waiting for the {{ req.stage }} to be written</h2>
+  <p class="muted">Paste JSON matching the shape below, or save it to <code>productions/{{ pdir }}/writing/{{ req.stage }}.json</code> and press Resume.</p>
+  {% if answer_error %}<pre class="err-box">{{ answer_error }}</pre>{% endif %}
+  <details><summary>The request</summary><pre>{{ req.request }}</pre></details>
+  <details><summary>Required JSON shape</summary><pre>{{ req.schema }}</pre></details>
+  <form method="post" action="/productions/{{ prod.id }}/answer/{{ req.stage }}" class="stack">
+    <textarea name="answer" rows="14" class="mono" placeholder='{ ... }' required></textarea>
+    <button class="btn">Submit and continue</button>
+  </form>
+</section>
+{% endfor %}
+
+{% if cast_form %}
+<section class="panel waiting" id="cast">
+  <h2>Pick a voice for each speaking role</h2>
+  <form method="post" action="/productions/{{ prod.id }}/cast" class="stack">
+    <table>
+      {% for r in cast_form.roles %}
+      <tr><td><strong>{{ r.character }}</strong><br><span class="muted small">{{ r.description }}</span></td>
+        <td><input type="hidden" name="character_{{ loop.index0 }}" value="{{ r.character }}">
+          <select name="voice_{{ loop.index0 }}" {{ 'required' if r.speaks }}>
+            <option value="">{{ '— pick a voice —' if r.speaks else '(silent role)' }}</option>
+            {% for v in voices %}<option value="{{ v.name }}" {{ 'selected' if v.name == r.voice }}>{{ v.name }}{{ ': ' ~ v.description[:50] if v.description }}</option>{% endfor %}
+          </select></td>
+        <td class="muted small">{{ 'speaks' if r.speaks else 'silent' }}</td></tr>
+      {% endfor %}
+    </table>
+    <div class="row"><button class="btn">Confirm cast and continue</button> <a class="small" href="/upload?category=voice">upload a voice</a></div>
+  </form>
+</section>
+{% endif %}
+
+<section class="prod-top">
+  <div class="panel">
+    {% if latest.look %}
+    <video controls preload="metadata" class="final" src="/productions/{{ prod.id }}/file/{{ latest.look.file }}"></video>
+    <p class="small"><a href="/productions/{{ prod.id }}/file/{{ latest.look.file }}?name={{ prod.title | slug }}.mp4">Download</a>
+      {% if latest.assemble %}<span class="muted"> · {{ latest.assemble.seconds | duration }} · look: {{ latest.look.preset }} · <a href="/productions/{{ prod.id }}/file/{{ latest.assemble.file }}">clean cut</a></span>{% endif %}</p>
+    {% else %}
+    <p class="empty">{% if prod.status == 'running' %}Working on the {{ prod.stage }}…{% elif prod.status == 'done' %}Done.{% else %}No video yet.{% endif %}</p>
+    {% endif %}
+  </div>
+
+  <div class="panel">
+    <dl class="meta">
+      {% if length.min is not none and length.min is defined %}<dt>Length</dt><dd>{{ '%g' % length.min }}{% if length.max != length.min %}–{{ '%g' % length.max }}{% endif %} s asked
+        {% if latest.assemble %}· <strong class="{{ 'ok' if length.min - 0.5 <= latest.assemble.seconds <= length.max + 0.5 else 'bad' }}">{{ latest.assemble.seconds | duration }}</strong> made{% endif %}</dd>{% endif %}
+      <dt>Spent</dt><dd>${{ '%.3f' % prod.spent_usd }}{% if prod.budget_usd %} of ${{ '%.2f' % prod.budget_usd }}
+        <div class="meter {{ 'over' if prod.spent_usd >= prod.budget_usd }}"><span style="width: {{ [100, (100 * prod.spent_usd / prod.budget_usd) | round] | min }}%"></span></div>{% else %} <span class="muted">(no limit)</span>{% endif %}</dd>
+      {% if latest.qc %}<dt>QC</dt><dd>{% if latest.qc.ok %}pass{% elif latest.qc.ok is none %}didn't run{% else %}problems{% endif %}{% if latest.qc.issues %} · {{ latest.qc.issues | length }} note(s){% endif %}</dd>{% endif %}
+      {% if latest.review %}{% set last = latest.review.rounds[-1] %}<dt>Review</dt><dd>{{ latest.review.rounds | length }} round(s) · {{ last.notes | length }} note(s)</dd>{% endif %}
+      {% if latest.publish %}<dt>On air</dt><dd><code>{{ latest.publish.code }}</code> {{ latest.publish.kind }} · <span class="muted small">{{ latest.publish.path }}</span>
+        <br><span class="muted small">{{ latest.publish.profile.blurb }} · {% for f, n in latest.publish.tags %}{{ n }}{{ ', ' if not loop.last }}{% endfor %}</span></dd>
+      {% elif opts.publish %}<dt>On air</dt><dd class="muted">when done</dd>{% endif %}
+      {% set typed = not ((prod.options or '{}') | fromjson).get('rolls', true) %}
+      {% if format_label(prod) %}<dt>Format</dt><dd>{{ format_label(prod) }}{% if not typed %} <span class="muted">· seed {{ prod.seed }}</span>{% endif %}</dd>{% endif %}
+      {% if picked_entities %}<dt>Cast</dt><dd>{% for e in picked_entities %}<a href="/world/{{ e.id }}">{{ e.name }}</a>{{ ', ' if not loop.last }}{% endfor %}</dd>{% endif %}
+      {% if picked_assets %}<dt>Attached</dt><dd>{% for a in picked_assets %}<a href="/library/{{ a.id }}">{{ a.title or a.original_name }}</a>{{ ', ' if not loop.last }}{% endfor %}</dd>{% endif %}
+    </dl>
+    {% if idea and idea.body %}<details class="prompt"><summary class="muted small">Prompt</summary><p>{{ idea.body }}</p></details>{% endif %}
+  </div>
+</section>
+
+{% if latest.qc %}{% set q = latest.qc %}
+<details class="panel" {{ 'open' if q.issues }}>
+  <summary>QC <span class="muted small">{% if q.ok %}pass{% elif q.ok is none %}didn't run{% else %}problems{% endif %} · {{ q.issues | length }} note(s)</span></summary>
+  {% if q.error %}<p class="note">{{ q.error }}</p>{% endif %}
+  {% if q.checks %}<p class="muted small">{% for name, c in q.checks.items() %}{{ name }}: {{ 'ok' if c.ok else ('error' if c.ok is none else 'problems') }}{% if name == 'loudness' and c.lufs is not none %} ({{ '%.1f' % c.lufs }} LUFS, peak {{ '%.1f' % c.true_peak }}{{ ', fixed' if c.fixed }}){% endif %}{{ ' · ' if not loop.last }}{% endfor %}</p>{% endif %}
+  {% if q.issues %}<table>{% for i in q.issues %}<tr><td>{{ i.t if i.t is not none else '' }}{{ 's' if i.t is not none }}</td><td>{{ i.severity }}</td><td>{{ i.category }}</td><td>{{ i.problem }}<br><span class="muted small">{{ i.hint }}</span></td></tr>{% endfor %}</table>{% endif %}
+  {% if q.checks and q.checks.contact_sheet and q.checks.contact_sheet.sheet %}<p class="small"><a href="/productions/{{ prod.id }}/file/{{ pdir }}/qc/cuts.png">Frames either side of every cut</a></p>{% endif %}
+</details>
+{% endif %}
+
+{% if latest.review %}
+<details class="panel">
+  <summary>Review <span class="muted small">{{ latest.review.rounds | length }} round(s)</span></summary>
+  {% for rd in latest.review.rounds %}
+  <h3>Round {{ rd.round }} <span class="muted small"><a href="/productions/{{ prod.id }}/file/{{ rd.video }}">the cut it watched</a> · {% for k, v in rd.scores.items() %}{{ k | replace('_', ' ') }} {{ v }}{{ ', ' if not loop.last }}{% endfor %}</span></h3>
+  <p>{{ rd.summary }}</p>
+  {% if rd.notes %}<table>{% for n in rd.notes %}<tr><td>{{ n.t if n.t is not none else '' }}</td><td>{{ n.severity }}</td><td>{{ n.problem }}</td></tr>{% endfor %}</table>{% endif %}
+  <p class="muted small">{{ rd.applied | length }} fix(es) applied, {{ rd.rejected | length }} rejected{% if rd.regenerate %} · wants new clips for: {% for g in rd.regenerate %}{{ g.event }} ({{ g.why }}){{ '; ' if not loop.last }}{% endfor %}{% endif %}</p>
+  {% endfor %}
+</details>
+{% endif %}
+
+{% if latest.screenplay %}{% set sp = latest.screenplay %}
+<details class="panel">
+  <summary>Screenplay <span class="muted small">{{ sp.title }}</span></summary>
+  <div class="head"><span class="muted small">Cast: {% for c in sp.cast %}<strong>{{ c.character }}</strong> ({{ c.description }}{% if c.voice %}; voice: {{ c.voice }}{% endif %}){{ ', ' if not loop.last }}{% endfor %}</span>
+    <form method="post" action="/productions/{{ prod.id }}/rewind/screenplay" onsubmit="return confirm('Throw away this screenplay and write it again?')"><button class="btn tiny ghost">Rewrite</button></form></div>
+  <div class="script">
+  {% for sc in sp.scenes %}
+    <p class="slug">{{ loop.index }}. {{ sc.setting | upper }}</p>
+    <p class="sdesc">{{ sc.description }}</p>
+    {% for b in sc.beats %}
+      {% if b.type in ['line', 'voiceover'] %}
+        <p class="who">{{ b.character | upper }}{{ ' (V.O.)' if b.type == 'voiceover' }}</p>
+        {% if b.delivery %}<p class="paren">({{ b.delivery }})</p>{% endif %}
+        <p class="said">{{ b.text }}</p>
+      {% elif b.type == 'action' %}<p class="act">{{ b.text }}</p>
+      {% elif b.type == 'title_card' %}<p class="card-text">ON SCREEN: {{ b.text }}</p>
+      {% else %}<p class="cue">{{ b.type | upper }}: {{ b.text }}</p>{% endif %}
+    {% endfor %}
+    {% if sc.act_break_after %}<p class="brk">— ACT BREAK (chapter marker) —</p>{% endif %}
+  {% endfor %}
+  </div>
+</details>
+{% endif %}
+
+{% if latest.outline %}{% set ol = latest.outline %}
+<details class="panel">
+  <summary>Outline <span class="muted small">{{ ol.logline }}</span></summary>
+  <div class="head"><span></span>
+    <form method="post" action="/productions/{{ prod.id }}/rewind/outline" onsubmit="return confirm('Throw away the outline and write it again? The screenplay stays until you rewrite it too.')"><button class="btn tiny ghost">Rewrite outline</button></form></div>
+  {% if ol.new_subject %}<p>New {{ rolls.subject.entity_type }}: <strong>{{ ol.new_subject.name }}</strong>: {{ ol.new_subject.description }} <em>"{{ ol.new_subject.tagline }}"</em></p>{% endif %}
+  <ol>{% for b in ol.beats %}<li>{{ b.summary }}{% if b.act_break_after %} <span class="badge">act break</span>{% endif %}</li>{% endfor %}</ol>
+</details>
+{% endif %}
+
+{% if latest.casting %}
+<details class="panel">
+  <summary>Cast <span class="muted small">{% for r in latest.casting.roles %}{{ r.character }}{{ ', ' if not loop.last }}{% endfor %}</span></summary>
+  <div class="head"><span></span>
+    <form method="post" action="/productions/{{ prod.id }}/rewind/casting" onsubmit="return confirm('Recast? Lines are re-voiced only where the voice changes.')"><button class="btn tiny ghost">Recast</button></form></div>
+  <table>{% for r in latest.casting.roles %}<tr><td><a href="/world/{{ r.character_id }}">{{ r.character }}</a></td>
+    <td>{% if r.voice_id %}<a href="/world/{{ r.voice_id }}">{{ r.voice }}</a>{% else %}<span class="muted">silent</span>{% endif %}</td></tr>{% endfor %}</table>
+</details>
+{% endif %}
+
+{% if latest.voice %}{% set vt = latest.voice %}
+<details class="panel">
+  <summary>Voice track <span class="muted small">{{ vt.lines | length }} lines · {{ vt.total_s | duration }}</span></summary>
+  {% if vt.warning %}<p class="note">{{ vt.warning }}</p>{% endif %}
+  {% if vt.draft %}<p><strong>All lines</strong> <audio controls preload="none" src="/productions/{{ prod.id }}/file/{{ vt.draft }}"></audio></p>{% endif %}
+  <table>
+    {% for l in vt.lines %}
+    <tr><td class="muted">{{ l.n }}</td><td><strong>{{ l.character }}</strong></td><td>{{ l.text }}</td>
+      <td class="muted">{{ l.duration_s | duration }}</td>
+      <td><audio controls preload="none" src="/productions/{{ prod.id }}/file/{{ l.file }}"></audio></td></tr>
+    {% endfor %}
+  </table>
+</details>
+{% endif %}
+
+{% if latest.plan %}{% set pl = latest.plan %}{% set stills = {} %}{% if latest.render %}{% for r in latest.render.shots %}{% set _ = stills.update({r.n: r}) %}{% endfor %}{% endif %}
+<details class="panel">
+  <summary>Shot plan <span class="muted small">{{ pl.shots | length }} shots · {{ pl.total_s | duration }}</span></summary>
+  <div class="head"><span></span>
+    <form method="post" action="/productions/{{ prod.id }}/rewind/plan" onsubmit="return confirm('Throw away this shot plan and write a new one? Stills already rendered are kept and reused where a prompt is unchanged.')"><button class="btn tiny ghost">Rewrite</button></form></div>
+  {% if pl.warning %}<p class="note">{{ pl.warning }}</p>{% endif %}
+  <table class="shots">
+    {% for s in pl.shots %}{% set r = stills.get(s.n) %}
+    <tr><td class="muted">{{ s.n }}</td>
+      <td>{% if r and r.still %}<img class="thumb" src="/productions/{{ prod.id }}/file/{{ r.still }}" alt="">{% elif r and r.asset_id %}<a href="/library/{{ r.asset_id }}"><img class="thumb" src="/media/{{ r.asset_id }}/thumb" alt=""></a>{% endif %}</td>
+      <td>{{ s.start | duration }}<br><span class="muted small">{{ s.seconds | duration }}</span></td>
+      <td><span class="badge">{{ s.source }}</span> <span class="muted small">{{ s.motion }}{{ ', b&w' if s.grade == 'bw' }}</span><br>
+        {% if s.source == 'card' %}<strong>{{ s.card_text }}</strong>{% elif s.source == 'asset' %}World image #{{ s.asset_id }}{% else %}{{ s.prompt }}{% endif %}
+        {% if s.caption %}<br><span class="muted small">caption: {{ s.caption }}</span>{% endif %}</td>
+      <td class="muted small">{% for p in s.placed %}line {{ p.n }}{{ ', ' if not loop.last }}{% endfor %}</td>
+      <td>{% if r %}<video controls preload="none" class="clip" src="/productions/{{ prod.id }}/file/{{ r.clip }}"></video>{% endif %}</td></tr>
+    {% endfor %}
+  </table>
+</details>
+{% endif %}
+
+{% if latest.sound %}
+<details class="panel">
+  <summary>Sound <span class="muted small">{{ latest.sound.cues | selectattr('asset_id') | list | length }} of {{ latest.sound.cues | length }} cues found</span></summary>
+  <div class="head"><span class="muted small">To swap one: put a better sound in the library with the cue's words in its title, delete the current pick, run sound again.</span>
+    <form method="post" action="/productions/{{ prod.id }}/redo/sound"><button class="btn tiny ghost">Run again from sound</button></form></div>
+  <table>{% for c in latest.sound.cues %}
+    <tr><td><span class="badge">{{ c.type }}</span></td><td>{{ c.text }}<br><span class="muted small">searched: {{ c.query }}</span></td>
+      <td>{% if c.asset_id %}<a href="/library/{{ c.asset_id }}">{{ c.found or ('asset ' ~ c.asset_id) }}</a>{% else %}<span class="muted">nothing found</span>{% endif %}</td>
+      <td>{% if c.asset_id %}<audio controls preload="none" src="/media/{{ c.asset_id }}/preview"></audio>{% endif %}</td></tr>
+  {% endfor %}</table>
+</details>
+{% endif %}
+
+{% if latest.edl %}
+<details class="panel">
+  <summary>Edit <span class="muted small">{{ latest.edl.made_by }} · {{ latest.edl.picture | length }} picture events · {{ latest.edl.titles | length }} titles · {{ latest.edl.audio | length }} sounds</span></summary>
+  {% if latest.edl.editor_notes %}<p>{{ latest.edl.editor_notes }}</p>{% else %}<p class="muted">No notes.</p>{% endif %}
+</details>
+{% endif %}
+
+{% if spend %}
+<details class="panel">
+  <summary>Spend <span class="muted small">${{ '%.3f' % prod.spent_usd }}</span></summary>
+  <table>{% for s in spend %}<tr><td>{{ s.stage }}</td><td>{{ s.what }}</td><td>{{ s.calls }} call(s)</td><td>${{ '%.4f' % s.cost_usd }}</td></tr>{% endfor %}</table>
+</details>
+{% endif %}
+
+{% set made = not ((prod.options or '{}') | fromjson).get('rolls', true) %}
+{% set shown = (rolls | dictsort | selectattr('1.pinned') | list) + (rolls | dictsort | selectattr('1.from', 'equalto', 'outline') | list) if made else rolls | dictsort | list %}
+{% if shown %}
+<details class="panel">
+  <summary>Tags <span class="muted small">{% for name, r in shown if name != 'subject' %}{{ r.value or name }}{{ ' · ' if not loop.last }}{% endfor %}</span></summary>
+  <table>
+    {% for name, r in shown %}
+    <tr><td>{{ name | replace('_', ' ') }}</td><td><strong>{{ r.value }}</strong>
+      {% if r.entity_id %} → <a href="/world/{{ r.entity_id }}">{{ entity_names.get(r.entity_id, '#' ~ r.entity_id) }}</a>{% endif %}
+      {% if r.reason %}<span class="muted">({{ r.reason }})</span>{% endif %}</td>
+    <td class="muted">{{ 'set by you' if r.pinned else ('from the outline' if r.get('from') == 'outline' else 'picked at random') }}</td></tr>
+    {% endfor %}
+  </table>
+</details>
+{% endif %}
+
+<details class="panel">
+  <summary>Documents and jobs <span class="muted small">{{ docs | length }} documents · {{ jobs | length }} jobs</span></summary>
+  {% for d in docs %}
+  <details><summary><code>{{ d.kind }}</code> v{{ d.version }} <span class="muted">{{ d.created_at | ago }}</span></summary>
+    <pre>{{ d.body | fromjson | tojson_pretty }}</pre></details>
+  {% endfor %}
+  {% if shots %}<h3>Shots</h3><table>{% for s in shots %}<tr><td>{{ s.ord }}</td><td><code>{{ s.shot_key }}</code></td><td>{{ s.source }}</td><td>{{ badge(s.status) }}</td></tr>{% endfor %}</table>{% endif %}
+  {% if jobs %}<h3>Jobs</h3><table>{% for j in jobs %}{{ job_row(j) }}{% endfor %}</table>{% endif %}
+</details>
+{% endblock %}
+{% block scripts %}<script>autoRefreshIf({{ 'true' if jobs | selectattr('status', 'in', ['queued', 'running']) | list else 'false' }}, 3000)</script>{% endblock %}

@@ -1,0 +1,313 @@
+{
+ "name": "tv_afterlife",
+ "files": {
+  "midi": "tv_afterlife.mid",
+  "wav": "tv_afterlife.wav",
+  "composition": "tv_afterlife.json",
+  "manifest": "tv_afterlife.render.json"
+ },
+ "rendered_at": "2026-11-15T10:36:00Z",
+ "render_seconds": 1.62,
+ "fluidsynth": "FluidSynth runtime version 2.3.1",
+ "sample_rate": 44100,
+ "bits": 16,
+ "reverb": "cathedral",
+ "wav_seconds": 34.184,
+ "gain_db": 8.5,
+ "levels": {
+  "peak_dbfs": -1.0,
+  "rms_dbfs": -21.7,
+  "first_sound_s": 0.004,
+  "last_sound_s": 33.949
+ },
+ "midi": {
+  "type": 1,
+  "tracks": 8,
+  "ticks_per_beat": 480,
+  "seconds": 32.0,
+  "notes": 41,
+  "channels": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "hanging_notes": 0,
+  "unmatched_note_offs": 0
+ },
+ "soundfonts": {
+  "gm": {
+   "file": "gm.sf2",
+   "stamp": {
+    "size": 3208108,
+    "mtime": 1794463878
+   }
+  }
+ },
+ "summary": {
+  "title": "TV Afterlife bed and sting",
+  "bars": 8,
+  "time_signature": "4/4",
+  "seconds": 32.0,
+  "tracks": [
+   {
+    "name": "Halo pad",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 94,
+    "preset": "Halo Pad",
+    "channel": 1,
+    "notes": 20,
+    "first_note_s": 0.0,
+    "last_note_end_s": 29.2,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Bowed glass",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 92,
+    "preset": "Bowed Glass",
+    "channel": 2,
+    "notes": 6,
+    "first_note_s": 0.5,
+    "last_note_end_s": 29.2,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Contrabass",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 43,
+    "preset": "Contrabass",
+    "channel": 3,
+    "notes": 2,
+    "first_note_s": 0.0,
+    "last_note_end_s": 29.2,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Vibraphone",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 11,
+    "preset": "Vibraphone",
+    "channel": 4,
+    "notes": 5,
+    "first_note_s": 2.0,
+    "last_note_end_s": 24.0,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Tremolo strings",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 44,
+    "preset": "Tremolo Str",
+    "channel": 5,
+    "notes": 4,
+    "first_note_s": 15.5,
+    "last_note_end_s": 20.0,
+    "first_note_bar": 4
+   },
+   {
+    "name": "Echo drops",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 102,
+    "preset": "Echo Drops",
+    "channel": 6,
+    "notes": 2,
+    "first_note_s": 22.6,
+    "last_note_end_s": 25.0,
+    "first_note_bar": 6
+   },
+   {
+    "name": "Tubular bells",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 14,
+    "preset": "Tubular-bell",
+    "channel": 7,
+    "notes": 2,
+    "first_note_s": 24.0,
+    "last_note_end_s": 29.2,
+    "first_note_bar": 7
+   }
+  ]
+ },
+ "stems": [
+  {
+   "soundfont": "gm",
+   "channel": 1,
+   "tracks": [
+    "Halo pad"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.95,
+    "synth.reverb.damp": 0.15,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.9
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -8.5,
+    "rms_dbfs": -25.3,
+    "first_sound_s": 0.002,
+    "last_sound_s": 33.989
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 2,
+   "tracks": [
+    "Bowed glass"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.95,
+    "synth.reverb.damp": 0.15,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.9
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -21.8,
+    "rms_dbfs": -35.3,
+    "first_sound_s": 0.501,
+    "last_sound_s": 34.003
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 3,
+   "tracks": [
+    "Contrabass"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.95,
+    "synth.reverb.damp": 0.15,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.9
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -19.4,
+    "rms_dbfs": -29.4,
+    "first_sound_s": 0.004,
+    "last_sound_s": 33.985
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 4,
+   "tracks": [
+    "Vibraphone"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.95,
+    "synth.reverb.damp": 0.15,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.9
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -23.9,
+    "rms_dbfs": -48.9,
+    "first_sound_s": 2.002,
+    "last_sound_s": 26.838
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 5,
+   "tracks": [
+    "Tremolo strings"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.95,
+    "synth.reverb.damp": 0.15,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.9
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -1.0,
+    "rms_dbfs": -26.8,
+    "first_sound_s": 15.507,
+    "last_sound_s": 25.022
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 6,
+   "tracks": [
+    "Echo drops"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.95,
+    "synth.reverb.damp": 0.15,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.9
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -13.8,
+    "rms_dbfs": -38.0,
+    "first_sound_s": 22.602,
+    "last_sound_s": 30.68
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 7,
+   "tracks": [
+    "Tubular bells"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.95,
+    "synth.reverb.damp": 0.15,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.9
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -9.5,
+    "rms_dbfs": -39.1,
+    "first_sound_s": 24.001,
+    "last_sound_s": 33.034
+   }
+  }
+ ],
+ "warnings": []
+}

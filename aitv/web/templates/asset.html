@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, job_row %}
+{% set m = asset.meta | fromjson %}
+{% set d = m.derived or {} %}
+{% block title %}{{ asset.title }}{% endblock %}
+{% block body %}
+<div class="head">
+  <h1>{{ asset.title or asset.original_name }} {{ badge(asset.status) }}</h1>
+  <div class="actions">
+    {% if asset.path %}<a class="btn ghost" href="/media/{{ asset.id }}/original">Download original</a>{% endif %}
+    <form method="post" action="/library/{{ asset.id }}/delete" onsubmit="return confirm('Delete this asset and its files?')"><button class="btn danger">Delete</button></form>
+  </div>
+</div>
+
+<section class="grid2">
+  <div class="panel preview">
+    {% if m.online %}<p class="muted small">From {{ m.online.source }}: {% if m.online.landing %}<a href="{{ m.online.landing }}" target="_blank" rel="noreferrer">{{ m.online.title }} ↗</a>{% else %}{{ m.online.title }}{% endif %}{% if m.used_by %} · used by production{{ 's' if m.used_by | length > 1 }} {% for p in m.used_by %}<a href="/productions/{{ p }}">#{{ p }}</a> {% endfor %}(never cleaned up){% endif %}</p>{% endif %}
+    {% if asset.status == 'culled' %}
+      <p class="muted">Deleted by the storage cleanup on {{ m.culled_at }} because nothing used it.</p>
+      <form method="post" action="/library/{{ asset.id }}/refetch"><button class="btn">Fetch it again</button></form>
+    {% elif asset.status != 'ready' %}
+      <p class="muted">Still being processed. This page refreshes on its own.</p>
+    {% elif asset.media == 'image' %}
+      <img src="/media/{{ asset.id }}/original" alt="">
+    {% elif asset.media == 'video' and d.proxy %}
+      <video controls preload="metadata" poster="/media/{{ asset.id }}/thumb" src="/media/{{ asset.id }}/proxy"></video>
+    {% endif %}
+    {% if d.waveform %}<img class="wave" src="/media/{{ asset.id }}/waveform" alt="waveform">{% endif %}
+    {% if m.midigen %}<p class="muted small">Composed with MIDIgen{% if m.midigen.soundfonts %} on {{ m.midigen.soundfonts | join(', ') }}{% endif %}.
+      {% if m.midigen.tests_folder %}MIDI, piano roll and composition: <a href="/tests?area={{ m.midigen.tests_folder.split('/')[0] }}">Tests · {{ m.midigen.tests_folder }}</a>{% endif %}
+      {% if m.midigen.midi_rel %} · <a href="/tests/file/{{ m.midigen.midi_rel }}?download=1">download .mid</a>{% endif %}</p>{% endif %}
+    {% if d.preview %}<p>Original <audio controls preload="none" src="/media/{{ asset.id }}/preview"></audio></p>{% endif %}
+    {% if d.reference %}<p>Voice reference ({{ m.reference_duration_s | duration }} cut from the original, what the clone learns from) <audio controls preload="none" src="/media/{{ asset.id }}/reference"></audio></p>{% endif %}
+    {% if asset.category == 'voice' and m.reference_duration_s and m.reference_duration_s < 8 %}<p class="note">Only {{ m.reference_duration_s | duration }} of speech. The clone works, but a 10-20 second recording of this voice clones much more steadily; upload one under the same voice.</p>{% endif %}
+    {% if d.tts_preview %}<p><strong>Cloned voice, test line</strong> <audio controls preload="none" src="/media/{{ asset.id }}/tts_preview"></audio></p>{% endif %}
+  </div>
+  <div class="panel">
+    <form method="post" action="/library/{{ asset.id }}" class="stack">
+      <label>Title <input name="title" value="{{ asset.title }}"></label>
+      <label>Tags <input name="tags" value="{{ (asset.tags | fromjson([])) | join(', ') }}" placeholder="comma, separated"></label>
+      <button class="btn">Save</button>
+    </form>
+    <dl class="meta">
+      <dt>Category</dt><dd>{{ asset.category }}</dd>
+      <dt>File</dt><dd>{{ asset.original_name }} · {{ asset.size_bytes | filesize }}</dd>
+      {% if asset.width %}<dt>Size</dt><dd>{{ asset.width }}×{{ asset.height }}</dd>{% endif %}
+      {% if asset.duration_s %}<dt>Length</dt><dd>{{ asset.duration_s | duration }}{% if m.reference_duration_s %} (trimmed reference {{ m.reference_duration_s | duration }}){% endif %}</dd>{% endif %}
+      {% if m.probe %}<dt>Codecs</dt><dd>{{ m.probe.video_codec or '' }} {{ m.probe.audio_codec or '' }}</dd>{% endif %}
+      <dt>Source</dt><dd>{{ asset.source }}</dd>
+      <dt>Added</dt><dd>{{ asset.created_at }} ({{ asset.created_at | ago }})</dd>
+      {% if asset.sha256 %}<dt>SHA-256</dt><dd class="mono">{{ asset.sha256[:16] }}…</dd>{% endif %}
+    </dl>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Belongs to</h2>
+  {% if links %}
+  <table>
+    {% for l in links %}
+    <tr><td><a href="/world/{{ l.id }}">{{ l.name }}</a></td><td class="muted">{{ l.type }}</td><td><code>{{ l.role }}</code></td>
+    <td><form method="post" action="/library/{{ asset.id }}/unlink"><input type="hidden" name="entity_id" value="{{ l.id }}"><input type="hidden" name="role" value="{{ l.role }}"><button class="btn tiny ghost">unlink</button></form></td></tr>
+    {% endfor %}
+  </table>
+  {% else %}<p class="muted">Not linked to anything in the world yet.</p>{% endif %}
+  <form method="post" action="/library/{{ asset.id }}/link" class="row">
+    <select name="entity_id" required>
+      <option value="">link to…</option>
+      {% for e in entities %}<option value="{{ e.id }}">{{ e.type }}: {{ e.name }}</option>{% endfor %}
+    </select>
+    <select name="role">{% for r in roles %}<option>{{ r }}</option>{% endfor %}</select>
+    <button class="btn ghost">Link</button>
+  </form>
+</section>
+
+{% if jobs %}
+<section class="panel">
+  <h2>Jobs for this asset</h2>
+  <table>{% for j in jobs %}{{ job_row(j) }}{% endfor %}</table>
+</section>
+{% endif %}
+{% endblock %}
+{% block scripts %}<script>autoRefreshIf({{ 'true' if asset.status in ['pending', 'processing'] else 'false' }}, 3000)</script>{% endblock %}

@@ -1,0 +1,16 @@
+# AI TV control room: Tailscale only. Pasted at the end of /etc/caddy/Caddyfile.
+# It listens on every interface on purpose: binding to the Tailscale IP would stop Caddy
+# (and the website) from starting if tailscaled came up later at boot. Instead, anything
+# not coming from a Tailscale address is dropped.
+:8420 {
+	@tailnet remote_ip 100.64.0.0/10 fd7a:115c:a1e0::/48
+	handle @tailnet {
+		request_body {
+			max_size 8GB
+		}
+		reverse_proxy 127.0.0.1:8421
+	}
+	handle {
+		abort
+	}
+}

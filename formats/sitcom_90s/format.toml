@@ -1,0 +1,35 @@
+# Early-1990s multi-camera sitcom. Chapter markers go at act breaks; no ads are ever inserted.
+
+[format]
+name = "1990s sitcom"
+description = "A multi-camera American sitcom from about 1991: living-room set, studio audience, a theme song, two acts."
+
+[rolls]
+plot = { "a scheme goes wrong" = 3, "a misunderstanding snowballs" = 3, "an unwanted houseguest" = 2, "a holiday disaster" = 1, "someone gets a weird job" = 2 }
+guest = { none = 3, new = 1, existing = 1 }
+very_special_episode = { no = 9, yes = 1 }
+
+[structure]
+acts = 2
+cold_open = true
+target_minutes = 5
+
+[pipeline]
+# Voice comes before the shot plan: shot lengths are taken from the spoken lines.
+stages = ["outline", "screenplay", "cast", "voice", "laughs", "plan", "sound", "render", "edit", "assemble", "look", "qc", "review", "publish"]
+
+[sources]
+library = 0.3
+still_motion = 0.6
+stock = 0.05
+manual = 0.05
+paid_clip = 0.0
+
+[look]
+preset = "clean"  # looks are off for now; the NTSC filter (~/retrovision) comes later
+aspect = "4:3"
+height = 480
+interlace = true
+chroma_bleed = 0.4
+noise = 0.15
+audio = "mono"

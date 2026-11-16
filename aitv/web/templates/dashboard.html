@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge, asset_card, job_row %}
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+<section class="grid4">
+  <div class="stat">
+    <h3>Worker</h3>
+    <p class="big {{ 'ok' if sys.worker.alive else 'bad' }}">{{ 'running' if sys.worker.alive else 'not running' }}</p>
+    <p class="muted">{% if sys.worker.current_job %}on <a href="/jobs/{{ sys.worker.current_job }}">job #{{ sys.worker.current_job }}</a>{% else %}idle{% endif %}</p>
+  </div>
+  <div class="stat">
+    <h3>GPU</h3>
+    {% if sys.gpu %}
+    <p class="big">{{ sys.gpu.util_pct }}% · {{ sys.gpu.temp_c }}°C</p>
+    <p class="muted">{{ sys.gpu.mem_used_mb }} / {{ sys.gpu.mem_total_mb }} MB · {{ sys.gpu.name }}</p>
+    {% else %}<p class="muted">nvidia-smi unavailable</p>{% endif %}
+  </div>
+  <div class="stat">
+    <h3>Memory · load</h3>
+    <p class="big">{{ (sys.memory.available_mb / 1024) | round(1) }} GB free</p>
+    <p class="muted">of {{ (sys.memory.total_mb / 1024) | round(1) }} GB · load {{ '%.2f' % sys.load[0] }}</p>
+  </div>
+  <div class="stat">
+    <h3>Disk</h3>
+    <p class="big">{{ sys.disk.free_gb | round(0) | int }} GB free</p>
+    <p class="muted">of {{ sys.disk.total_gb | round(0) | int }} GB</p>
+  </div>
+</section>
+
+<section class="grid2">
+  <div class="panel">
+    <h2>Queue <a class="small" href="/jobs">all jobs →</a></h2>
+    {% if active %}
+    <table>{% for j in active %}{{ job_row(j) }}{% endfor %}</table>
+    {% else %}<p class="muted">Nothing queued or running.</p>{% endif %}
+    {% if counts.jobs.blocked %}
+    <p class="note">{{ counts.jobs.blocked }} job(s) blocked, waiting on tools that aren't installed yet. <a href="/jobs?status=blocked">See them</a>.</p>
+    {% endif %}
+    <h3>Recently finished
+      {% if recent | selectattr('status', 'in', ['failed', 'cancelled', 'blocked']) | list %}
+      <form method="post" action="/jobs/clear" style="display:inline"><button class="btn tiny ghost" title="Deletes failed and cancelled jobs and blocked production runs; productions keep their own status">Clear old errors</button></form>
+      {% endif %}</h3>
+    <table>{% for j in recent %}{{ job_row(j) }}{% endfor %}</table>
+  </div>
+  <div class="panel">
+    <h2>Productions <a class="small" href="/productions">all →</a></h2>
+    {% if productions %}
+    <table>
+      {% for p in productions %}
+      <tr><td><a href="/productions/{{ p.id }}">#{{ p.id }} {{ p.title }}</a></td><td><code>{{ p.format }}</code></td>
+      <td>{{ badge(p.status) }}</td><td class="muted">{{ p.stage or '' }}</td></tr>
+      {% endfor %}
+    </table>
+    {% else %}<p class="muted">No productions yet. <a href="/">Make one</a>.</p>{% endif %}
+
+    <h2>Setup</h2>
+    <ul class="checks">
+      <li class="{{ 'ok' if sys.llm_backend != 'none' else '' }}">LLM backend: <code>{{ sys.llm_backend }}</code></li>
+      <li class="{{ 'ok' if sys.tools.whisper else '' }}">Whisper (voice transcription)</li>
+      <li class="{{ 'ok' if sys.tools.pocket_tts else '' }}">Pocket TTS (voice cloning)</li>
+      <li class="{{ 'ok' if sys.tools.comfyui_url else '' }}">ComfyUI (image generation)</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Library <a class="small" href="/library">browse →</a></h2>
+  <p class="muted">
+    {% for c, n in counts.assets.items() %}{{ n }} {{ c }}{{ ' · ' if not loop.last }}{% else %}Empty so far. <a href="/upload">Upload something</a> or drop files in <code>library/inbox/</code>.{% endfor %}
+    {% if counts.entities %} — world: {% for t, n in counts.entities.items() %}{{ n }} {{ t }}{{ ' · ' if not loop.last }}{% endfor %}{% endif %}
+  </p>
+  <div class="cards">{% for a in fresh %}{{ asset_card(a) }}{% endfor %}</div>
+</section>
+{% endblock %}
+{% block scripts %}<script>autoRefreshIf({{ 'true' if active else 'false' }}, 5000)</script>{% endblock %}

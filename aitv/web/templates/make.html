@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}Make{% endblock %}
+{% set length = opts.length or {} %}
+{% set ranged = length and length.min is not none and length.min != length.max %}
+{% block body %}
+<div class="make-grid">
+<form id="make" class="stack" method="post" action="/make">
+  {% if draft %}<input type="hidden" name="idea_id" value="{{ draft.id }}">{% endif %}
+  {% if saved %}<p class="note">Draft saved.</p>{% endif %}
+
+  <section class="panel stack">
+    <div class="row">
+      <label class="grow">Title <input name="title" required value="{{ draft.title if draft }}" placeholder="1-800-COPE-BALDY"></label>
+      <div class="field">Format
+        <div class="combo">
+          <input name="format" id="fmt" autocomplete="off" value="{{ opts.format_label or '' }}" placeholder="type anything, or pick">
+          <button type="button" class="btn tiny ghost" id="fmt-open" aria-label="formats used before">▾</button>
+          <ul class="combo-list" id="fmt-list" hidden>{% for h in history %}<li>{{ h }}</li>{% else %}<li class="muted none">nothing used yet</li>{% endfor %}</ul>
+        </div>
+      </div>
+    </div>
+    <p class="muted small">Format is just a name for what this is, passed to the writer as you type it. It can be anything, or left blank. ▾ lists every format used before.</p>
+    <label>Prompt <textarea name="prompt" rows="7" required placeholder="What it is, the joke, lines you want said, how it should feel.">{{ draft.body if draft }}</textarea></label>
+    <label>Tags <textarea name="tags" rows="3" class="mono" placeholder="type: hotline">{{ tags }}</textarea></label>
+    <p class="muted small">One tag per line, as <code>name: value</code> or just a word. They go to the writer exactly as written. <code>type: product</code>, <code>hotline</code> or <code>fake show</code> also decides where the finished piece is filed on ChupTV; without it, the writer works that out from your prompt.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Length</h2>
+    <div class="row len-mode">
+      <label class="check"><input type="radio" name="len_mode" value="exact" {{ 'checked' if not ranged }}> Exact</label>
+      <label class="check"><input type="radio" name="len_mode" value="range" {{ 'checked' if ranged }}> Range</label>
+    </div>
+    <div class="row len-boxes">
+      <label>Shortest <input name="len_min" class="clock" pattern="\d+:[0-5]\d" placeholder="0:15" value="{{ clock(length.get('min')) if ranged }}"></label>
+      <label><span id="len-max-name">{{ 'Longest' if ranged else 'Length' }}</span> <input name="len_max" class="clock" pattern="\d+:[0-5]\d" placeholder="0:30" required value="{{ clock(length.get('max')) }}"></label>
+    </div>
+    <p class="muted small">Times are minutes:seconds, like 0:30 or 1:15. <b>Exact</b>: only the second box is used, and the finished piece runs that long. <b>Range</b>: the first box is the shortest it may run, the second the longest.</p>
+  </section>
+
+  <details class="panel picker">
+    <summary>Cast <span class="muted small" data-count="characters"></span></summary>
+    {% if characters %}
+    <div class="head"><span></span><input type="search" class="filter" data-for="cast-grid" placeholder="filter"></div>
+    <div class="picks" id="cast-grid">
+      {% for c in characters %}
+      <label class="pick" data-name="{{ c.name | lower }} {{ (c.description or '') | lower }}" title="{{ c.description }}">
+        <input type="checkbox" name="characters" value="{{ c.id }}" {{ 'checked' if c.id in (opts.characters or []) }}>
+        <span class="pthumb">{% if c.thumb_id %}<img loading="lazy" src="/media/{{ c.thumb_id }}/thumb" alt="">{% else %}<span class="ph">no picture</span>{% endif %}</span>
+        <span class="pname">{{ c.name }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    {% else %}<p class="muted">No characters in the World yet.</p>{% endif %}
+  </details>
+
+  <details class="panel picker">
+    <summary>Voices <span class="muted small" data-count="voices"></span></summary>
+    <div class="head"><span></span><a class="small" href="/upload?category=voice">upload a voice</a></div>
+    {% if voices %}
+    <div class="voices">
+      {% for v in voices %}
+      <label class="vpick" title="{{ v.description }}">
+        <input type="checkbox" name="voices" value="{{ v.id }}" {{ 'checked' if v.id in (opts.voices or []) }}>
+        <span class="pname">{{ v.name }}</span>
+        {% if v.asset_id %}<button type="button" class="btn tiny ghost play" data-src="/media/{{ v.asset_id }}/preview">▶</button>{% endif %}
+      </label>
+      {% endfor %}
+    </div>
+    {% else %}<p class="muted">No voices yet.</p>{% endif %}
+  </details>
+
+  <details class="panel picker">
+    <summary>Images, footage, music <span class="muted small" data-count="assets"></span></summary>
+    <div class="head"><span></span>
+      <div class="actions">
+        <input type="search" class="filter" data-for="asset-grid" placeholder="filter">
+        <label class="btn tiny ghost">add files<input type="file" id="attach" multiple hidden accept="image/*,video/*,audio/*"></label>
+      </div></div>
+    <p id="attach-msg" class="muted small" hidden></p>
+    <div class="picks" id="asset-grid">
+      {% for a in media %}{% set m = a.meta | fromjson %}
+      <label class="pick" data-name="{{ (a.title or a.original_name or '') | lower }} {{ a.category }} {{ (a.tags or '') | lower }}">
+        <input type="checkbox" name="assets" value="{{ a.id }}" {{ 'checked' if a.id in (opts.assets or []) }}>
+        <span class="pthumb">{% if m.derived and m.derived.thumb %}<img loading="lazy" src="/media/{{ a.id }}/thumb" alt="">{% elif m.derived and m.derived.waveform %}<img loading="lazy" class="wave" src="/media/{{ a.id }}/waveform" alt="">{% else %}<span class="ph">{{ a.category }}</span>{% endif %}
+          <span class="kind">{{ a.category }}</span></span>
+        <span class="pname">{{ a.title or a.original_name }}</span>
+      </label>
+      {% endfor %}
+    </div>
+  </details>
+
+  <details class="panel picker" id="models">
+    <summary>Models <span class="muted small">{% for m in model_stages if not m.off %}{{ m.model.split('/')[-1] }}{{ ' · ' if not loop.last }}{% endfor %}</span></summary>
+    <p class="muted small">Which model does each step, for this production. Every model gets the same instructions and has to answer in the same JSON shape; the list only offers models that can. The editor has to see stills and the reviewer video, so text-only models (DeepSeek) aren't offered there. Type any OpenRouter model id, or ▾ for the list with today's prices per million tokens (in / out).</p>
+    <div class="models">
+      {% for m in model_stages %}
+      <div class="field model-row">{{ m.label }}{% if m.off %} <span class="muted small">(switched off in config)</span>{% endif %}
+        <div class="combo">
+          <input name="model_{{ m.stage }}" value="{{ m.model }}" autocomplete="off" data-needs="{{ m.needs }}">
+          <button type="button" class="btn tiny ghost combo-open" aria-label="models">▾</button>
+          <ul class="combo-list" hidden></ul>
+        </div>
+        <span class="muted small price"></span>
+      </div>
+      {% endfor %}
+    </div>
+  </details>
+
+  <section class="panel">
+    <div class="row">
+      <label>Spending limit ($) <input type="number" name="budget" min="0" step="0.01" value="{{ '%.2f' % opts.budget if opts.budget is defined else '1.00' }}"></label>
+      <p class="muted small cost">{% if cost.n %}Finished runs: ${{ '%.2f' % cost.avg }} average, ${{ '%.2f' % cost.most }} most ({{ cost.n }}).{% endif %}</p>
+    </div>
+    <label class="check publish"><input type="checkbox" name="publish" value="1" {{ 'checked' if opts.publish }}> Publish to ChupTV when done</label>
+    <div class="row buttons">
+      <button class="btn" name="action" value="start">Start</button>
+      <button class="btn ghost" name="action" value="draft" formnovalidate>Save draft</button>
+    </div>
+  </section>
+</form>
+
+<aside>
+  <section class="panel" id="video-prices">
+    <h2>Video prices</h2>
+    <p class="muted small">Live from OpenRouter, loading…</p>
+  </section>
+  <section class="panel">
+    <h2>Recent</h2>
+    {% for p in recent %}
+    <p class="line"><a href="/productions/{{ p.id }}">{{ p.title }}</a> {{ badge(p.status) }}<br>
+      <span class="muted small">{{ p.updated_at | ago }}{% if p.spent_usd %} · ${{ '%.2f' % p.spent_usd }}{% endif %}</span></p>
+    {% else %}<p class="muted">Nothing yet.</p>{% endfor %}
+  </section>
+  {% if drafts %}
+  <section class="panel">
+    <h2>Drafts</h2>
+    {% for d in drafts %}<p class="line"><a href="/?idea={{ d.id }}" class="{{ 'on' if draft and draft.id == d.id }}">{{ d.title }}</a><br><span class="muted small">{{ format_label(d) }}{{ ' · ' if format_label(d) }}{{ d.updated_at | ago }}</span></p>{% endfor %}
+  </section>
+  {% endif %}
+</aside>
+</div>
+{% endblock %}
+{% block scripts %}<script>initMake()</script>{% endblock %}

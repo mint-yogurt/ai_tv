@@ -1,0 +1,97 @@
+{
+ "pine_wind": {
+  "asset_id": 58,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/pine_wind.mp3",
+  "title": "wind pine trees 03 190307_1313.wav",
+  "landing": "https://freesound.org/people/klankbeeld/sounds/463562",
+  "seconds": 70.0,
+  "library_path": "/home/mint/ai_tv/library/store/b3/b3b5e2524c89d61a9746a8c224c77c6f1be66e0695059c5f0a69f50de61b5d9c.mp3"
+ },
+ "crickets_owl": {
+  "asset_id": 59,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/crickets_owl.mp3",
+  "title": "CricketsandTawnyOwl.wav",
+  "landing": "https://freesound.org/people/raoul_slayer/sounds/203598",
+  "seconds": 140.3,
+  "library_path": "/home/mint/ai_tv/library/store/40/400e012273447daf53557c736124f0682a11e9a9ffec9745c16d777e586968c9.mp3"
+ },
+ "powerlines": {
+  "asset_id": 60,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/powerlines.mp3",
+  "title": "high_voltage_powerlines.flac",
+  "landing": "https://freesound.org/people/833-45/sounds/11727",
+  "seconds": 56.5,
+  "library_path": "/home/mint/ai_tv/library/store/ab/ab1e39eed4ca7447a801579e07a9e6d1426b3c1db290c25e1095429ce52a0132.mp3"
+ },
+ "street_lamp_hum": {
+  "asset_id": 61,
+  "path": "/home/mint/ai_tv/library/store/98/98bca2b41da092ccc112187b4a7861d63aaae28685047ba8f77fb86a3c250ee0.mp3",
+  "title": "street lamp incandescent electric hum before all LEDs.flac",
+  "landing": "https://freesound.org/people/kyles/sounds/637854",
+  "seconds": 53.2
+ },
+ "hotel_room_tone": {
+  "asset_id": 62,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/hotel_room_tone.mp3",
+  "title": "room tone hotel room quiet very distant voices and low throbbing electric hum maybe heat on Gaza 2016.wav",
+  "landing": "https://freesound.org/people/kyles/sounds/406507",
+  "seconds": 205.6,
+  "library_path": "/home/mint/ai_tv/library/store/63/63522690e0af34778177936ed97e374028e893c3cad921d82da5b592dbccbb0d.mp3"
+ },
+ "fluorescent": {
+  "asset_id": 63,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/fluorescent.mp3",
+  "title": "Old Fluorescent Fixture",
+  "landing": "https://freesound.org/people/Jean_Sander/sounds/399365",
+  "seconds": 20.5,
+  "library_path": "/home/mint/ai_tv/library/store/f7/f7baf8858462713f85849bf6545f81b61633fd3faec64087c6d51cfee825000b.mp3"
+ },
+ "bulb_flicker": {
+  "asset_id": 64,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/bulb_flicker.mp3",
+  "title": "Light switch fluorescent flickering electric bulb BANFF 190107.flac",
+  "landing": "https://freesound.org/people/TRP/sounds/574100",
+  "seconds": 20.1,
+  "library_path": "/home/mint/ai_tv/library/store/32/32d98678c552c427c41f2427adbfecfc4e777070abc6205fa087f71d28446942.mp3"
+ },
+ "jacobs_ladder": {
+  "asset_id": 65,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/jacobs_ladder.mp3",
+  "title": "jacobs ladder from side.wav",
+  "landing": "https://freesound.org/people/parabolix/sounds/449013",
+  "seconds": 40.8,
+  "library_path": "/home/mint/ai_tv/library/store/6f/6fd5cbf0c82b83f31ec7fefba66db0d2b2a12f91da6acc9f4e5b33ba66c554ad.mp3"
+ },
+ "tv_static": {
+  "asset_id": 66,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/tv_static.mp3",
+  "title": "vintage TV static noise",
+  "landing": "https://freesound.org/people/oliwoli/sounds/633174",
+  "seconds": 61.7,
+  "library_path": "/home/mint/ai_tv/library/store/55/55a6614920bbf81a83f747a9e7cf362847264b128d5266658c5bf15b587d350b.mp3"
+ },
+ "crt_off": {
+  "asset_id": 67,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/crt_off.mp3",
+  "title": "TV, CRT, turning on off, static, click (2012).wav",
+  "landing": "https://freesound.org/people/TRP/sounds/616850",
+  "seconds": 5.8,
+  "library_path": "/home/mint/ai_tv/library/store/9a/9a1447ef4a628886d76379717a53db6308c8b16bd160cecf1ef8ea6a172ce5a2.mp3"
+ },
+ "distant_train": {
+  "asset_id": 68,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/distant_train.mp3",
+  "title": "Distant Train Passing",
+  "landing": "https://freesound.org/people/simgo/sounds/380671",
+  "seconds": 36.5,
+  "library_path": "/home/mint/ai_tv/library/store/ca/ca8242079653782f318f9b7b77f1dfe5c4298b91601b12fcc5f48a1f9f42ccda.mp3"
+ },
+ "reverse_glass": {
+  "asset_id": 69,
+  "path": "/home/mint/ai_tv/test_outputs/video/2026-11-15_tv_afterlife_promo/src/sfx/reverse_glass.mp3",
+  "title": "cymbal-reversed-glassy-resonance.wav",
+  "landing": "https://freesound.org/people/burnttoys/sounds/9523",
+  "seconds": 3.2,
+  "library_path": "/home/mint/ai_tv/library/store/00/008e8cfbf0d11653e4deedcae4d07e54734f2729e4d5108aa2677e0ce800b6a2.mp3"
+ }
+}

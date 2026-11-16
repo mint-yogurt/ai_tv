@@ -1,0 +1,12 @@
+<form class="stack" method="post" action="/generate">
+  {% if entity %}<input type="hidden" name="entity_id" value="{{ entity.id }}">{% endif %}
+  <label>Prompt <textarea name="prompt" rows="3" required>{{ prompt }}</textarea></label>
+  <div class="row">
+    <label>Quality <select name="preset">{% for p in presets %}<option value="{{ p }}">{{ p }}{{ ' (~8 s each)' if p == 'draft' else (' (~21 s each)' if p == 'final' else '') }}</option>{% endfor %}</select></label>
+    <label>How many <select name="count">{% for n in [1, 2, 3, 4] %}<option {{ 'selected' if n == 4 }}>{{ n }}</option>{% endfor %}</select></label>
+    <label>Seed <input name="seed" placeholder="random"></label>
+    {% if entity %}<label>Role <select name="role">{% for r in roles %}<option {{ 'selected' if (r == 'headshot' and entity.type in ['character', 'voice', 'presenter']) or (r == 'plate' and entity.type == 'set') or (r == 'packshot' and entity.type == 'product') }}>{{ r }}</option>{% endfor %}</select></label>{% endif %}
+  </div>
+  <button class="btn">Generate</button>
+  <p class="muted small">Runs on the GTX 970 (ComfyUI starts on demand, ~20 s the first time). Results land in the library{{ ', attached here' if entity }}.</p>
+</form>

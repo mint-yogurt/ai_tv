@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Notepad{% endblock %}
+{% block body %}
+<div class="head"><h1>Notepad</h1><span id="saved" class="muted small">saved</span></div>
+<textarea id="pad" class="pad" spellcheck="true" placeholder="Anything. Saves as you type.">{{ text }}</textarea>
+{% endblock %}
+{% block scripts %}<script>initNotepad()</script>{% endblock %}

@@ -1,0 +1,101 @@
+{
+ "model": "heygen/heygen-video-1",
+ "jobs": [
+  {
+   "scene": 1,
+   "id": "gen-vid-1794478006-3tvGRnmFZBTJqiUf6wzA",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "Full colour. Extreme close-up of a sweating middle-aged man's face filling the frame, every pore visible, eyes wide and unblinking, staring just past the lens. A bead of sweat runs down his forehead. His mouth twitches, and barely moving his lips he whispers: \"It's here.\" A low subsonic hum vibrates under the silence. No on-screen text, captions, subtitles or logos. Shot on 35mm film in 1991, heavy grain, dim practical light, still and deliberate camera, deadpan and serious, an art-house horror film in the vein of David Lynch. No music or score of any kind: only room tone, ambience, sound effects and the dialogue described.",
+    "duration": 5,
+    "resolution": "768p",
+    "aspect_ratio": "4:3"
+   },
+   "submitted": 1794478008.570812,
+   "status": "completed",
+   "finished": 1794478027.9964893,
+   "cost": 0.09,
+   "file": "scene1_qiUf6wzA.mp4"
+  },
+  {
+   "scene": 0,
+   "id": "gen-vid-1794478057-5bvrKH81xK6ikXYFGUjP",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "Grainy black-and-white handheld footage inside a dimly lit, half-empty discount store at night. A worried family of three (mother, father, young daughter) moves slowly down a sparsely stocked aisle, peering ahead and flinching at shadows between the shelves. The fluorescent tubes hum. Over the footage, an off-screen female narrator whispers, eerily calm and unnervingly gentle: \"Have you ever felt... watched while shopping?\" No on-screen text, captions, subtitles or logos. Shot on 35mm film in 1991, heavy grain, dim practical light, still and deliberate camera, deadpan and serious, an art-house horror film in the vein of David Lynch. No music or score of any kind: only room tone, ambience, sound effects and the dialogue described.",
+    "duration": 5,
+    "resolution": "768p",
+    "aspect_ratio": "4:3"
+   },
+   "submitted": 1794478059.0657866,
+   "status": "completed",
+   "finished": 1794478081.4302084,
+   "cost": 0.09,
+   "file": "scene0_kXYFGUjP.mp4"
+  },
+  {
+   "scene": 2,
+   "id": "gen-vid-1794478059-H52h1PszdaI3mDit9WaJ",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "Stop-motion claymation, visibly animated frame by frame with handmade textures. In a grocery aisle lit by sickly green flickering fluorescent tubes, the shelves glisten as if sweating. A creature woven from translucent plastic shopping bags, damp curling receipt paper and spirals of price stickers slithers out from between dusty tin cans and exhales a thick fog. Sound: crackling plastic and a moist, shuddering exhale. No on-screen text, captions, subtitles or logos. Shot on 35mm film in 1991, heavy grain, dim practical light, still and deliberate camera, deadpan and serious, an art-house horror film in the vein of David Lynch. No music or score of any kind: only room tone, ambience, sound effects and the dialogue described.",
+    "duration": 5,
+    "resolution": "768p",
+    "aspect_ratio": "4:3"
+   },
+   "submitted": 1794478059.9276378,
+   "status": "completed",
+   "finished": 1794478082.3615084,
+   "cost": 0.09,
+   "file": "scene2_mDit9WaJ.mp4"
+  },
+  {
+   "scene": 3,
+   "id": "gen-vid-1794478060-DLPukHEUgo1I2bt5CdHf",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "A montage of three quick cuts, each held slightly too long. Cut one: a supermarket checkout conveyor belt rolls backward, slowly swallowing a cereal box into the dark gap at its end. Cut two: a dark aisle where a red glow pulses behind a hanging aisle sign marked with the number 9. Cut three: a faceless department store mannequin in a clothing display turns its head toward camera with a single click. Sound: distorted cash register beeps and looped, unintelligible whispering. No other on-screen text, captions or subtitles. Shot on 35mm film in 1991, heavy grain, dim practical light, still and deliberate camera, deadpan and serious, an art-house horror film in the vein of David Lynch. No music or score of any kind: only room tone, ambience, sound effects and the dialogue described.",
+    "duration": 8,
+    "resolution": "768p",
+    "aspect_ratio": "4:3"
+   },
+   "submitted": 1794478061.46165,
+   "status": "completed",
+   "finished": 1794478083.122213,
+   "cost": 0.144,
+   "file": "scene3_2bt5CdHf.mp4"
+  },
+  {
+   "scene": 4,
+   "id": "gen-vid-1794478061-Yt2aLlg0wj9ACoWRPuu5",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "A title card on pure, impenetrable black. In large, elegant, widely spaced white serif capitals, centred, the title slowly fades in: \"THE SHART IN MART\". The letters seem to drip very slowly. A moment later, beneath it in smaller serif italics, the tagline fades in: \"Everything must go.\" Nothing else on screen, no other text. Sound: a lone, distorted cash-register ding, then a low, building rumble. Shot on 35mm film in 1991, heavy grain, dim practical light, still and deliberate camera, deadpan and serious, an art-house horror film in the vein of David Lynch. No music or score of any kind: only room tone, ambience, sound effects and the dialogue described.",
+    "duration": 5,
+    "resolution": "768p",
+    "aspect_ratio": "4:3"
+   },
+   "submitted": 1794478062.7569597,
+   "status": "completed",
+   "finished": 1794478083.9265356,
+   "cost": 0.09,
+   "file": "scene4_CoWRPuu5.mp4"
+  },
+  {
+   "scene": 5,
+   "id": "gen-vid-1794478062-UqcV46KtzEERQkFGHQ6V",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "A plain black screen. In small, clean white serif lettering in the lower third, centred, fine print slowly materializes: \"RATED R\" and below it \"Coming soon to select theaters.\" It holds, then the text fades as the screen dissolves to total black. Nothing else on screen. Sound: a deep rumble that swells to swallow everything, then cuts to dead silence. Shot on 35mm film in 1991, heavy grain, dim practical light, still and deliberate camera, deadpan and serious, an art-house horror film in the vein of David Lynch. No music or score of any kind: only room tone, ambience, sound effects and the dialogue described.",
+    "duration": 5,
+    "resolution": "768p",
+    "aspect_ratio": "4:3"
+   },
+   "submitted": 1794478064.12867,
+   "status": "completed",
+   "finished": 1794478084.7009387,
+   "cost": 0.09,
+   "file": "scene5_QkFGHQ6V.mp4"
+  }
+ ]
+}

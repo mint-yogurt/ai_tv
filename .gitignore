@@ -1,0 +1,28 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+
+# Secrets and per-machine settings.
+config/secrets.env
+*.env
+.claude/settings.local.json
+
+# Data, media and generated output stay on the server, out of git.
+data/
+library/
+productions/
+test_outputs/
+ideas/NOTEPAD.md
+tools/*/
+
+# Keepers: the scripts and notes are tracked, the media isn't.
+keepers/**/*.mp4
+keepers/**/*.mp3
+keepers/**/*.wav
+keepers/**/*.mid
+keepers/**/*.png
+keepers/**/*.jpg
+keepers/**/*.log
+keepers/**/.sd_frames/

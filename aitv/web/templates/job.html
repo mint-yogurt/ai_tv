@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}Job #{{ job.id }}{% endblock %}
+{% block body %}
+<div class="head">
+  <h1>Job #{{ job.id }} <code>{{ job.kind }}</code> {{ badge(job.status) }}</h1>
+  <div class="actions">
+    {% if job.status in ['failed', 'blocked', 'cancelled'] %}<form method="post" action="/jobs/{{ job.id }}/retry"><button class="btn">Retry</button></form>{% endif %}
+    {% if job.status in ['queued', 'blocked'] %}<form method="post" action="/jobs/{{ job.id }}/cancel"><button class="btn ghost">Cancel</button></form>{% endif %}
+  </div>
+</div>
+{% if job.error %}<p class="note">{{ job.error }}</p>{% endif %}
+<section class="grid2">
+  <div class="panel">
+    <dl class="meta">
+      <dt>Created</dt><dd>{{ job.created_at }}</dd>
+      <dt>Started</dt><dd>{{ job.started_at or '—' }}</dd>
+      <dt>Finished</dt><dd>{{ job.finished_at or '—' }}</dd>
+      <dt>Attempts</dt><dd>{{ job.attempts }}</dd>
+      {% if job.cost_usd %}<dt>Cost</dt><dd>${{ '%.4f' % job.cost_usd }}</dd>{% endif %}
+      {% if job.asset_id %}<dt>Asset</dt><dd><a href="/library/{{ job.asset_id }}">#{{ job.asset_id }}</a></dd>{% endif %}
+      {% if job.production_id %}<dt>Production</dt><dd><a href="/productions/{{ job.production_id }}">#{{ job.production_id }}</a></dd>{% endif %}
+    </dl>
+    <h3>Payload</h3><pre>{{ job.payload | fromjson | tojson_pretty }}</pre>
+    {% if job.result %}<h3>Result</h3><pre>{{ job.result | fromjson | tojson_pretty }}</pre>{% endif %}
+  </div>
+  <div class="panel"><h3>Log</h3><pre class="log">{{ job.log or '(empty)' }}</pre></div>
+</section>
+{% endblock %}
+{% block scripts %}<script>autoRefreshIf({{ 'true' if job.status in ['queued', 'running'] else 'false' }}, 2500)</script>{% endblock %}

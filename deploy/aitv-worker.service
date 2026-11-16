@@ -1,0 +1,20 @@
+[Unit]
+Description=AI TV job worker (ingest, rendering, pipeline stages)
+After=network.target
+
+[Service]
+User=mint
+Group=mint
+WorkingDirectory=/home/mint/ai_tv
+ExecStart=/home/mint/ai_tv/.venv/bin/aitv worker
+# Stay out of the website's way: low CPU and disk priority, and throttle before memory gets tight.
+Nice=10
+IOSchedulingClass=idle
+CPUWeight=50
+MemoryHigh=10G
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=60
+
+[Install]
+WantedBy=multi-user.target

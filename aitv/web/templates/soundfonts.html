@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}SoundFonts{% endblock %}
+{% block body %}
+<div class="head"><h1>SoundFonts</h1></div>
+{% if error %}<p class="note">{{ error }}</p>{% endif %}
+
+<form id="sf-upload" class="panel stack" method="post" action="/soundfonts/upload" enctype="multipart/form-data">
+  <div id="drop" class="drop">
+    <p><strong>Drop .sf2 files here</strong> or <label class="link">browse<input type="file" name="files" accept=".sf2" multiple hidden></label></p>
+    <ul id="picked" class="muted"></ul>
+  </div>
+  <div class="row">
+    <button class="btn" id="go">Upload</button>
+    <progress id="bar" max="100" value="0" hidden></progress>
+  </div>
+  <p id="msg" class="muted"></p>
+</form>
+
+<section class="panel">
+  <div class="head">
+    <h2>Installed <span class="muted small">{{ cat.soundfonts | length }}</span></h2>
+    <form method="post" action="/soundfonts/scan"><button class="btn tiny ghost" title="Pick up files copied in by hand and measure new presets">Re-scan</button></form>
+  </div>
+  {% if cat.soundfonts %}
+  <table>
+    <tr><th>id (used in compositions)</th><th>name</th><th>file</th><th>presets</th><th>banks</th><th>samples</th><th>measured</th><th></th></tr>
+    {% for f in cat.soundfonts %}
+    <tr>
+      <td><a href="/soundfonts/{{ f.id }}"><code>{{ f.id }}</code></a></td>
+      <td>{{ f.info.name or '' }}{% if f.info.copyright %}<br><span class="muted small">{{ f.info.copyright }}</span>{% endif %}</td>
+      <td>{{ f.file }}</td>
+      <td>{{ f.preset_count }}</td>
+      <td class="small">{{ f.banks | join(', ') }}</td>
+      <td>{{ f.sample_mb }} MB</td>
+      <td>{% if f.analysis %}<span class="ok">yes</span>{% else %}<span class="muted">not yet (Re-scan)</span>{% endif %}</td>
+      <td>
+        <form method="post" action="/soundfonts/delete" onsubmit="return confirm('Delete {{ f.file }} from the server?')">
+          <input type="hidden" name="file" value="{{ f.file }}"><button class="btn tiny danger">delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p class="empty">No SoundFonts yet. Upload some above.</p>
+  {% endif %}
+  {% for e in cat.errors %}<p class="bad small">{{ e.file }}: {{ e.error }}</p>{% endfor %}
+</section>
+{% endblock %}
+{% block scripts %}<script>initSoundfontUpload()</script>{% endblock %}

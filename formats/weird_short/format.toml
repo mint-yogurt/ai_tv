@@ -1,0 +1,25 @@
+# Short, strange, artsy pieces: claymation bits, public-access oddities, educational filmstrips.
+
+[format]
+name = "Weird short"
+description = "A one-to-two minute strange little film, played completely sincerely."
+
+[rolls]
+style = { claymation = 2, "public access" = 2, "educational filmstrip" = 1, "70s cartoon" = 1, "late-night PSA" = 1 }
+length_s = { "45" = 1, "60" = 2, "120" = 1 }
+mood = { cheerful = 2, ominous = 1, "deeply sad" = 1, triumphant = 1 }
+
+[pipeline]
+# Voice comes before the shot plan: shot lengths are taken from the spoken lines.
+stages = ["outline", "screenplay", "cast", "voice", "plan", "sound", "render", "edit", "assemble", "look", "qc", "review", "publish"]
+
+[sources]
+still_motion = 0.4
+stock = 0.2
+manual = 0.3
+paid_clip = 0.1
+
+[look]
+preset = "clean"  # looks are off for now; the NTSC filter (~/retrovision) comes later
+aspect = "4:3"
+height = 480

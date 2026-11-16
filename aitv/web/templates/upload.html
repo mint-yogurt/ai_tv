@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Upload{% endblock %}
+{% block body %}
+<h1>Upload</h1>
+<form id="upload" class="panel stack" method="post" action="/upload" enctype="multipart/form-data">
+  <div id="drop" class="drop">
+    <p><strong>Drop files here</strong> or <label class="link">browse<input type="file" name="files" multiple hidden></label></p>
+    <ul id="picked" class="muted"></ul>
+  </div>
+
+  <label>What is it?
+    <select name="category" required>
+      {% for c in categories %}<option value="{{ c }}" {{ 'selected' if c == category }}>{{ c }}</option>{% endfor %}
+    </select>
+  </label>
+  <p class="muted small" id="hint"></p>
+
+  <fieldset>
+    <legend>Attach to the world (optional)</legend>
+    <div class="row">
+      <label>Existing
+        <select name="entity_id">
+          <option value="">— nothing —</option>
+          {% for e in entities %}<option value="{{ e.id }}" {{ 'selected' if e.id == preselect }}>{{ e.type }}: {{ e.name }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>as role
+        <select name="role">{% for r in roles %}<option>{{ r }}</option>{% endfor %}</select>
+      </label>
+    </div>
+    <p class="muted small">…or create a new one with these files attached:</p>
+    <div class="row">
+      <label>Type <select name="new_type">{% for t in entity_types %}<option>{{ t }}</option>{% endfor %}</select></label>
+      <label>Name <input name="new_name" placeholder="e.g. Dave Kowalski"></label>
+    </div>
+    <label>Description <textarea name="new_description" rows="2" placeholder="one line: who or what this is"></textarea></label>
+  </fieldset>
+
+  <div class="row">
+    <label>Title <input name="title" placeholder="(single file only; defaults to the file name)"></label>
+    <label>Tags <input name="tags" placeholder="comma, separated"></label>
+  </div>
+
+  <button class="btn" id="go">Upload</button>
+  <progress id="bar" max="100" value="0" hidden></progress>
+  <p id="msg" class="muted"></p>
+</form>
+{% endblock %}
+{% block scripts %}<script>initUpload()</script>{% endblock %}

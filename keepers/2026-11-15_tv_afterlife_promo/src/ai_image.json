@@ -1,0 +1,23 @@
+{
+  "prompt": "An old wood-grain CRT television set standing alone on the floor of a dark pine forest at night, in the centre of the frame. Its screen glows with grey-blue static, the only light in the scene, lighting the low mist and the bark of the tall fir trees around it. A frayed power cord runs off into the darkness. Pine needles on the ground. Eerie, still and dreamlike, deep black shadows, a 1990s 35mm film still, subtle film grain.",
+  "model": "tencent/hy-image-v3.5-preview",
+  "usage": {
+    "prompt_tokens": 108,
+    "completion_tokens": 15000,
+    "total_tokens": 15108,
+    "cost": 0.024,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.024,
+      "upstream_inference_prompt_cost": 0,
+      "upstream_inference_completions_cost": 0.024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 15000
+    }
+  }
+}

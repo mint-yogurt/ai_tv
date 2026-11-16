@@ -1,0 +1,85 @@
+{
+ "model": "heygen/heygen-video-1",
+ "jobs": [
+  {
+   "scene": 1,
+   "id": "gen-vid-1794479215-uD3tNXF1zlrkBzRIRoFY",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "Colour, bright daytime. A doorbell rings. At the front door of a suburban house, a 1980s housewife with permed auburn hair, a pastel pink blouse and big earrings opens the door to find Tarman, the man in the reference image: a zombie door-to-door salesman with glistening, tar-black, rotting skin, thin dreadlocked hair, yellowed eyes and a big toothy grin, wearing a stained khaki trench coat over a black shirt and a stained beige tie, the coat's lining stuffed with little trinkets. Black tar constantly drips from him. He speaks in a cheerful, raspy, gravelly salesman voice. He holds up a squat white jar of cream with a pink label reading \"Vanishing Cream\" and says: \"Tarman here! With Vanishing Cream, the cream that makes things vanish!\" Tar drips onto her doorstep with a wet plop and he doesn't notice. He points at the jar and winks: \"Warts, hair, husbands' hair!\" The wife stares at him. No on-screen text, captions or subtitles. A 1987 American late-night TV commercial shot on broadcast video: slightly soft picture, warm saturated colour, flat bright sitcom lighting, sincere and earnest in tone even though the product is absurd. No music or jingle of any kind: only room tone, sound effects and the dialogue described.",
+    "duration": 9,
+    "resolution": "768p",
+    "aspect_ratio": "4:3",
+    "input_references": [
+     {
+      "type": "image_url",
+      "image_url": {
+       "url": "tarman_reference.jpg"
+      }
+     }
+    ]
+   },
+   "submitted": 1794479217.3707523,
+   "status": "completed",
+   "finished": 1794479248.9187016,
+   "cost": 0.45,
+   "file": "scene1_BzRIRoFY.mp4"
+  },
+  {
+   "scene": 0,
+   "id": "gen-vid-1794479275-NETeI5nwrHloBGyKeRhz",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "Black and white. A suburban living room at night. A 1980s housewife with permed auburn hair, a pastel pink blouse and big earrings sits on a floral couch glaring at her husband, who has an enormous teased 1980s rock-star hairdo and a moustache; he reads a newspaper beside her, oblivious. She frowns and slowly shakes her head at his hair. Over this, an unseen male announcer with a deep, earnest, slightly gravelly voice says: \"Are you tired of a husband with too much hair?\" No on-screen text, captions or subtitles. A 1987 American late-night TV commercial shot on broadcast video: slightly soft picture, warm saturated colour, flat bright sitcom lighting, sincere and earnest in tone even though the product is absurd. No music or jingle of any kind: only room tone, sound effects and the dialogue described.",
+    "duration": 6,
+    "resolution": "768p",
+    "aspect_ratio": "4:3"
+   },
+   "submitted": 1794479276.8669417,
+   "status": "completed",
+   "finished": 1794479297.876475,
+   "cost": 0.108,
+   "file": "scene0_BGyKeRhz.mp4"
+  },
+  {
+   "scene": 2,
+   "id": "gen-vid-1794479276-P2uYkzrALxlnudEQJlJ7",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "Colour, a dim suburban bedroom at night. A 1980s housewife with permed auburn hair, a pastel pink blouse and big earrings tiptoes up to the bed where her husband, who has an enormous teased 1980s rock-star hairdo and a moustache lies asleep. She rubs a dab of cream from a squat white jar of cream with a pink label reading \"Vanishing Cream\" onto his head. A subtle magical sparkle, and all his hair vanishes, leaving a smooth bald scalp. Over this, an unseen male announcer with a deep, earnest, slightly gravelly voice says, smooth and amazed: \"Watch as a dab on his head makes all that hair disappear.\" He wakes, pats his smooth scalp, looks in a hand mirror with delighted surprise and gives a thumbs-up. She winks at the camera. Sound: a twinkling sparkle. No on-screen text, captions or subtitles. A 1987 American late-night TV commercial shot on broadcast video: slightly soft picture, warm saturated colour, flat bright sitcom lighting, sincere and earnest in tone even though the product is absurd. No music or jingle of any kind: only room tone, sound effects and the dialogue described.",
+    "duration": 10,
+    "resolution": "768p",
+    "aspect_ratio": "4:3"
+   },
+   "submitted": 1794479278.6528308,
+   "status": "completed",
+   "finished": 1794479298.7436583,
+   "cost": 0.18,
+   "file": "scene2_udEQJlJ7.mp4"
+  },
+  {
+   "scene": 3,
+   "id": "gen-vid-1794479278-eh2CwsOEtOkJ8ctz5IjZ",
+   "body": {
+    "model": "heygen/heygen-video-1",
+    "prompt": "Colour, bright daytime at the same suburban front door. Close-up of Tarman, the man in the reference image: a zombie door-to-door salesman with glistening, tar-black, rotting skin, thin dreadlocked hair, yellowed eyes and a big toothy grin, wearing a stained khaki trench coat over a black shirt and a stained beige tie, the coat's lining stuffed with little trinkets. Black tar constantly drips from him. He speaks in a cheerful, raspy, gravelly salesman voice. He holds up a squat white jar of cream with a pink label reading \"Vanishing Cream\". Large blocky yellow TV text appears on screen: \"$19.95\" and \"1-800-VANISH\". Earnestly, with salesman energy he says: \"Call now! Operators are standing by. Remember, Vanishing Cream, the easy way to lose what you don't need.\" Small white fine print appears along the bottom of the screen reading \"Not for internal use. Do not apply to pets without supervision.\" while he rattles off very fast: \"Not for internal use. Do not apply to pets without supervision.\" Then he turns and shuffles away down the path, leaving black tar footprints with squishy footsteps, and a yellow \"CAUTION: SLIPPERY\" sign briefly pops up beside them. The commercial ends on a product shot of a squat white jar of cream with a pink label reading \"Vanishing Cream\" on a white background with the words \"Vanishing Cream\" and \"1-800-VANISH\" on screen. No other text. A 1987 American late-night TV commercial shot on broadcast video: slightly soft picture, warm saturated colour, flat bright sitcom lighting, sincere and earnest in tone even though the product is absurd. No music or jingle of any kind: only room tone, sound effects and the dialogue described.",
+    "duration": 14,
+    "resolution": "768p",
+    "aspect_ratio": "4:3",
+    "input_references": [
+     {
+      "type": "image_url",
+      "image_url": {
+       "url": "tarman_reference.jpg"
+      }
+     }
+    ]
+   },
+   "submitted": 1794479281.157047,
+   "status": "completed",
+   "finished": 1794479314.983528,
+   "cost": 0.7,
+   "file": "scene3_8ctz5IjZ.mp4"
+  }
+ ]
+}

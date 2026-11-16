@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}{{ entity.name }}{% endblock %}
+{% block body %}
+<div class="head">
+  <h1>{{ entity.name }} <small class="muted">{{ entity.type | replace('_', ' ') }}</small></h1>
+  <div class="actions">
+    <a class="btn" href="/upload?entity_id={{ entity.id }}{{ '&category=voice' if entity.type == 'voice' }}">Upload files for this</a>
+    <form method="post" action="/world/{{ entity.id }}/delete" onsubmit="return confirm('Delete {{ entity.name }}? Its files stay in the library.')"><button class="btn danger">Delete</button></form>
+  </div>
+</div>
+
+<section class="grid2">
+  <form class="panel stack" method="post" action="/world/{{ entity.id }}">
+    <div class="row">
+      <label>Type <select name="type">{% for t in entity_types %}<option {{ 'selected' if t == entity.type }}>{{ t }}</option>{% endfor %}{% if entity.type not in entity_types %}<option selected>{{ entity.type }}</option>{% endif %}</select></label>
+      <label>Name <input name="name" value="{{ entity.name }}" required></label>
+    </div>
+    <label>Description <textarea name="description" rows="4">{{ entity.description }}</textarea></label>
+    <label>Attributes (JSON: slogan, catchphrase, age, colours, anything)
+      <textarea name="attributes" rows="6" class="mono">{{ entity.attributes | fromjson | tojson_pretty }}</textarea></label>
+    <button class="btn">Save</button>
+  </form>
+
+  <div class="panel">
+    <h2>Connected to</h2>
+    {% if links %}
+    <table>
+      {% for l in links %}
+      <tr><td class="muted">{{ 'this' if l.dir == 'out' }} <code>{{ l.relation }}</code> {{ '→' if l.dir == 'out' else '← from' }}</td>
+      <td><a href="/world/{{ l.id }}">{{ l.name }}</a> <span class="muted">{{ l.type }}</span></td>
+      <td><form method="post" action="/world/{{ entity.id }}/unlink"><input type="hidden" name="other_id" value="{{ l.id }}"><input type="hidden" name="relation" value="{{ l.relation }}"><button class="btn tiny ghost">remove</button></form></td></tr>
+      {% endfor %}
+    </table>
+    {% else %}<p class="muted">No connections. Examples: brand <code>makes</code> product, character <code>voiced_by</code> voice, show <code>stars</code> character.</p>{% endif %}
+    <form method="post" action="/world/{{ entity.id }}/link" class="row">
+      <input name="relation" placeholder="relation, e.g. makes" required>
+      <select name="to_id" required><option value="">…</option>{% for o in others %}<option value="{{ o.id }}">{{ o.type }}: {{ o.name }}</option>{% endfor %}</select>
+      <button class="btn ghost">Connect</button>
+    </form>
+
+    <h2>Used in</h2>
+    {% if used %}
+    <ul>{% for u in used %}<li><a href="/productions/{{ u.id }}">#{{ u.id }} {{ u.title }}</a> <span class="muted">{{ u.format }} · {{ u.used_at | ago }}</span></li>{% endfor %}</ul>
+    {% else %}<p class="muted">Not used in a production yet.</p>{% endif %}
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Generate images</h2>
+  {% include "_generate.html" %}
+  {% if gen_jobs %}
+  <table>{% for j in gen_jobs %}<tr><td><a href="/jobs/{{ j.id }}">#{{ j.id }}</a></td><td>{{ badge(j.status) }}</td>
+    <td class="muted">{{ ((j.payload | fromjson).prompt)[:90] }}</td><td class="muted">{{ j.created_at | ago }}</td></tr>{% endfor %}</table>
+  {% endif %}
+</section>
+
+<section class="panel">
+  <h2>Files</h2>
+  {% if assets %}
+  <div class="cards">
+    {% for a in assets %}{% set m = a.meta | fromjson %}
+    <a class="card" href="/library/{{ a.id }}">
+      <div class="thumb">
+        {% if m.derived and m.derived.thumb %}<img loading="lazy" src="/media/{{ a.id }}/thumb" alt="">
+        {% elif m.derived and m.derived.waveform %}<img loading="lazy" class="wave" src="/media/{{ a.id }}/waveform" alt="">
+        {% else %}<span class="ph">{{ a.category }}</span>{% endif %}
+      </div>
+      <div class="cap"><span class="t">{{ a.title }}</span><span class="sub"><code>{{ a.role }}</code>{% if a.status != 'ready' %} · {{ badge(a.status) }}{% endif %}</span></div>
+    </a>
+    {% if a.category == 'voice' and m.derived and m.derived.tts_preview %}
+    <div><span class="muted small">cloned test line</span><audio class="inline" controls preload="none" src="/media/{{ a.id }}/tts_preview"></audio></div>
+    {% elif a.category == 'voice' and m.derived and m.derived.reference %}
+    <div><span class="muted small">reference (no clone preview yet)</span><audio class="inline" controls preload="none" src="/media/{{ a.id }}/reference"></audio></div>
+    {% endif %}
+    {% endfor %}
+  </div>
+  {% else %}<p class="muted">No files yet.</p>{% endif %}
+</section>
+{% endblock %}
+{% block scripts %}<script>autoRefreshIf({{ 'true' if gen_jobs | selectattr('status', 'in', ['queued', 'running']) | list or assets | selectattr('status', 'in', ['pending', 'processing']) | list else 'false' }}, 4000)</script>{% endblock %}

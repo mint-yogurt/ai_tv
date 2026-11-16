@@ -1,0 +1,59 @@
+# Parody commercials: standalone productions, never cut into shows.
+
+[format]
+name = "Parody commercial"
+description = "Earnest, slightly wrong TV ads for products, hotlines and shows that don't exist, as if taped off late-night TV."
+
+# Each roll is {option = weight}. Pin any of them from an idea or the production form.
+[rolls]
+ad_type = { product = 5, hotline = 3, fake_show = 2 }
+subject = { new = 0.4, existing = 0.6 }
+length_s = { "15" = 1, "30" = 3, "60" = 1 }
+era = { "1988" = 1, "1991" = 2, "1994" = 2 }
+tone = { earnest = 3, unhinged = 1, "eerily calm" = 1 }
+# How the ad asks for the sale. A hotline ad gives its number whatever this rolls (the number is the product).
+offer = { "a price" = 3, "in stores now, no price" = 3, "just the name and tagline" = 2, "a phone number to call" = 1, "a price and a phone number" = 1, "a mail-in address or coupon" = 1 }
+# MIDIgen style cards (midigen styles). Commercials get a fresh piece every time.
+music_style = { "corporate smooth rock" = 2, "80s smooth jazz" = 2, muzak = 2, "corporate new age" = 1, exotica = 1, mallsoft = 1 }
+
+[subject]
+# The subject is a World entity whose type is whatever ad_type rolled
+# (product, hotline or fake_show). "existing" picks the least recently used one.
+from_roll = "ad_type"
+
+[pipeline]
+# Voice comes before the shot plan: shot lengths are taken from the spoken lines.
+stages = ["outline", "screenplay", "cast", "voice", "plan", "sound", "render", "edit", "assemble", "look", "qc", "review", "publish"]
+
+[sources]
+# Default shot mix the planner aims for (see the README).
+still_motion = 0.6
+stock = 0.3
+manual = 0.1
+paid_clip = 0.0
+
+[music]
+# midigen: every music cue gets a freshly composed piece. Anything else: the library, then online.
+source = "midigen"
+# MIDIgen cue card for the script's music cues: theme, jingle, sting, bed or credits.
+cue = "jingle"
+# Score the whole ad when the script has no music cue of its own, with this cue card (a bed stays
+# out of the voices' way).
+always = true
+always_cue = "bed"
+# How hard the model thinks before writing the notes (OpenRouter reasoning effort). The first try
+# at a 30 s piece thought its way past 16000 tokens and was cut off.
+reasoning = "low"
+# Pieces are written this much longer than their slot and faded out at the cut, so they never stop short.
+tail_s = 2.0
+# How many times to send MIDIgen's validation errors back before giving up on a cue.
+repairs = 2
+
+[voice]
+# A title card in a scene with no spoken lines is read aloud (by the voiceover, else the Announcer).
+read_cards = true
+
+[look]
+preset = "clean"
+aspect = "4:3"
+height = 480

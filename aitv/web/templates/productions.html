@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}Productions{% endblock %}
+{% block body %}
+<div class="head"><h1>Productions</h1><div class="actions"><a class="btn" href="/">New</a></div></div>
+<section class="panel">
+  {% if productions %}
+  <table>
+    <tr><th>#</th><th>Title</th><th>Format</th><th>Status</th><th>Stage</th><th>Spent</th><th>Updated</th></tr>
+    {% for p in productions %}
+    <tr><td class="muted">{{ p.id }}</td><td><a href="/productions/{{ p.id }}">{{ p.title }}</a></td>
+    <td class="muted">{{ format_label(p) }}</td><td>{{ badge(p.status) }}</td><td class="muted">{{ p.stage or '' }}</td>
+    <td class="muted">{% if p.spent_usd %}${{ '%.2f' % p.spent_usd }}{% endif %}{% if p.budget_usd %} / ${{ '%.2f' % p.budget_usd }}{% endif %}</td>
+    <td class="muted">{{ p.updated_at | ago }}</td></tr>
+    {% endfor %}
+  </table>
+  {% else %}<p class="empty">Nothing made yet. <a href="/">Make something</a>.</p>{% endif %}
+</section>
+{% endblock %}
+{% block scripts %}<script>autoRefreshIf({{ 'true' if productions | selectattr('status', 'equalto', 'running') | list else 'false' }}, 5000)</script>{% endblock %}

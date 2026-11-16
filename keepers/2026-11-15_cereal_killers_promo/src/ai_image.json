@@ -1,0 +1,23 @@
+{
+  "prompt": "A 1990s suburban kitchen just after sunrise, seen from table height. In the centre of the frame a kitchen table with an overturned bowl of bright neon sugary cereal, loops and marshmallow shapes scattered across the table, a pool of spilled milk running to the table edge and dripping onto the linoleum floor, a spoon lying on the floor. Behind the table on the counter a small wood-grain CRT television glows with saturated cartoon colours. Yellow police tape is strung across the doorway in the background. Cold blue morning light through venetian blinds, long shadows, dust in the air. Moody cinematic 35mm film still from a 1990s crime thriller, shallow depth of field, film grain.",
+  "model": "tencent/hy-image-v3.5-preview",
+  "usage": {
+    "prompt_tokens": 172,
+    "completion_tokens": 15000,
+    "total_tokens": 15172,
+    "cost": 0.024,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.024,
+      "upstream_inference_prompt_cost": 0,
+      "upstream_inference_completions_cost": 0.024
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 15000
+    }
+  }
+}

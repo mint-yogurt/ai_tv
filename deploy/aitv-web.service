@@ -1,0 +1,17 @@
+[Unit]
+Description=AI TV control room (web UI on 127.0.0.1:8421, published by Caddy on the Tailscale port)
+After=network.target
+
+[Service]
+User=mint
+Group=mint
+WorkingDirectory=/home/mint/ai_tv
+# Large uploads spool here instead of /tmp.
+Environment=TMPDIR=/home/mint/ai_tv/data/tmp
+ExecStartPre=/usr/bin/mkdir -p /home/mint/ai_tv/data/tmp
+ExecStart=/home/mint/ai_tv/.venv/bin/aitv web
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,278 @@
+{
+ "name": "prime_cheese",
+ "files": {
+  "midi": "prime_cheese.mid",
+  "wav": "prime_cheese.wav",
+  "composition": "prime_cheese.json",
+  "manifest": "prime_cheese.render.json"
+ },
+ "rendered_at": "2026-11-15T11:38:14Z",
+ "render_seconds": 2.05,
+ "fluidsynth": "FluidSynth runtime version 2.3.1",
+ "sample_rate": 44100,
+ "bits": 16,
+ "reverb": "hall",
+ "wav_seconds": 31.879,
+ "gain_db": 4.7,
+ "levels": {
+  "peak_dbfs": -1.0,
+  "rms_dbfs": -21.1,
+  "first_sound_s": 0.006,
+  "last_sound_s": 30.783
+ },
+ "midi": {
+  "type": 1,
+  "tracks": 7,
+  "ticks_per_beat": 480,
+  "seconds": 32.0,
+  "notes": 80,
+  "channels": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "hanging_notes": 0,
+  "unmatched_note_offs": 0
+ },
+ "soundfonts": {
+  "gm": {
+   "file": "gm.sf2",
+   "stamp": {
+    "size": 3208108,
+    "mtime": 1794463878
+   }
+  }
+ },
+ "summary": {
+  "title": "Prime Cheese bed and sting",
+  "bars": 8,
+  "time_signature": "4/4",
+  "seconds": 32.0,
+  "tracks": [
+   {
+    "name": "Strings",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 49,
+    "preset": "Slow Strings",
+    "channel": 1,
+    "notes": 26,
+    "first_note_s": 0.0,
+    "last_note_end_s": 28.9,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Cellos",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 42,
+    "preset": "Cello",
+    "channel": 2,
+    "notes": 3,
+    "first_note_s": 0.0,
+    "last_note_end_s": 12.6,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Harp",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 46,
+    "preset": "Harp",
+    "channel": 3,
+    "notes": 26,
+    "first_note_s": 0.1,
+    "last_note_end_s": 26.95,
+    "first_note_bar": 1
+   },
+   {
+    "name": "Celesta",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 8,
+    "preset": "Celesta",
+    "channel": 4,
+    "notes": 6,
+    "first_note_s": 1.8,
+    "last_note_end_s": 30.0,
+    "first_note_bar": 1
+   },
+   {
+    "name": "French horns",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 60,
+    "preset": "French Horns",
+    "channel": 5,
+    "notes": 4,
+    "first_note_s": 23.5,
+    "last_note_end_s": 28.3,
+    "first_note_bar": 6
+   },
+   {
+    "name": "Timpani",
+    "soundfont": "gm",
+    "bank": 0,
+    "program": 47,
+    "preset": "Timpani",
+    "channel": 6,
+    "notes": 15,
+    "first_note_s": 22.2,
+    "last_note_end_s": 29.9,
+    "first_note_bar": 6
+   }
+  ]
+ },
+ "stems": [
+  {
+   "soundfont": "gm",
+   "channel": 1,
+   "tracks": [
+    "Strings"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -4.7,
+    "rms_dbfs": -23.8,
+    "first_sound_s": 0.019,
+    "last_sound_s": 30.994
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 2,
+   "tracks": [
+    "Cellos"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -24.6,
+    "rms_dbfs": -41.7,
+    "first_sound_s": 0.003,
+    "last_sound_s": 14.48
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 3,
+   "tracks": [
+    "Harp"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -12.6,
+    "rms_dbfs": -41.4,
+    "first_sound_s": 0.103,
+    "last_sound_s": 26.125
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 4,
+   "tracks": [
+    "Celesta"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -13.3,
+    "rms_dbfs": -49.3,
+    "first_sound_s": 1.802,
+    "last_sound_s": 30.828
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 5,
+   "tracks": [
+    "French horns"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -5.3,
+    "rms_dbfs": -25.2,
+    "first_sound_s": 23.502,
+    "last_sound_s": 30.27
+   }
+  },
+  {
+   "soundfont": "gm",
+   "channel": 6,
+   "tracks": [
+    "Timpani"
+   ],
+   "settings": {
+    "synth.gain": 0.5,
+    "synth.polyphony": 256,
+    "synth.midi-bank-select": "gs",
+    "synth.reverb.active": 1,
+    "synth.chorus.active": 1,
+    "synth.reverb.room-size": 0.75,
+    "synth.reverb.damp": 0.3,
+    "synth.reverb.width": 1.0,
+    "synth.reverb.level": 0.8
+   },
+   "levels_in_mix": {
+    "peak_dbfs": -10.1,
+    "rms_dbfs": -37.5,
+    "first_sound_s": 22.202,
+    "last_sound_s": 30.643
+   }
+  }
+ ],
+ "warnings": [
+  "Timpani: 'Timpani' is a one-shot sample of 0.31 s; 2 notes are written longer than it can sound"
+ ]
+}

@@ -1,0 +1,33 @@
+{# One folder of the Tests page, fetched when it's opened. Nothing plays or loads until clicked. #}
+<div class="head">
+  {% if note %}<pre class="note-text">{{ note }}</pre>{% else %}<span></span>{% endif %}
+  <form method="post" action="/tests/delete" onsubmit="return confirm('Delete the folder {{ rel }} and everything in it?')">
+    <input type="hidden" name="rel" value="{{ rel }}"><input type="hidden" name="area" value="{{ area }}">
+    <button class="btn tiny danger">delete folder</button>
+  </form>
+</div>
+<div class="tests">
+  {% for f in files %}
+  <div class="tfile {{ f.kind }}" data-kind="{{ f.kind }}" data-src="/tests/file/{{ f.rel }}"
+       {% if f.render %}data-render="/tests/file/{{ f.render }}"{% endif %}>
+    <div class="tname">
+      {% if f.kind in ('audio', 'video', 'image', 'text', 'midi') %}
+      <button class="btn tiny show">{{ 'view' if f.kind in ('image', 'text') else 'play' }}</button>
+      {% endif %}
+      <strong>{{ f.name }}</strong>
+      <span class="muted small">{{ f.size | filesize }}</span>
+      <a class="small" href="/tests/file/{{ f.rel }}?download=1">download</a>
+      <form method="post" action="/tests/delete" class="inline" onsubmit="return confirm('Delete {{ f.name }}?')">
+        <input type="hidden" name="rel" value="{{ f.rel }}"><input type="hidden" name="area" value="{{ area }}">
+        <button class="btn tiny ghost">delete</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% for s in subs %}
+<details class="panel test sub" data-folder="{{ s.rel }}" data-area="{{ area }}">
+  <summary>{{ s.name }}/ <span class="muted small">{{ s.count }} item{{ 's' if s.count != 1 }}</span></summary>
+  <div class="folder-body muted small">loading…</div>
+</details>
+{% endfor %}

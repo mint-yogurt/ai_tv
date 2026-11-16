@@ -1,0 +1,285 @@
+# AI TV configuration. Relative paths resolve against the project root.
+
+[web]
+# The app only listens locally; Caddy exposes it on the Tailscale port (see deploy/).
+host = "127.0.0.1"
+port = 8421
+
+[paths]
+data = "data"
+library = "library"
+ideas = "ideas"
+productions = "productions"
+# Scratch output from tool and pipeline tests, browsable on the Tests page.
+test_outputs = "test_outputs"
+formats = "formats"
+tools = "tools"
+# SoundFonts (.sf2) for the music tool (MIDIgen), uploaded on the SoundFonts page. MIDIgen's own
+# config (~/MIDIgen/config/midigen.toml) points here too.
+soundfonts = "library/soundfonts"
+
+[worker]
+poll_seconds = 2
+# Files dropped straight into library/inbox/ (SFTP, scp) are picked up this often.
+inbox_scan_seconds = 60
+# Files younger than this are assumed to still be copying.
+inbox_settle_seconds = 10
+
+[llm]
+# Who writes outlines and screenplays:
+#   manual         (default) each writing stage saves its request and waits; the answer is pasted
+#                  on the production page or saved to productions/<id>/writing/<stage>.json
+#   anthropic      Anthropic API key, billed per token
+#   openai_compat  any OpenAI-compatible chat API (DeepSeek, OpenRouter, a local server...)
+# There is no Claude Code / Claude subscription backend on purpose (see README).
+backend = "openai_compat"
+
+[llm.anthropic]
+api_key_env = "ANTHROPIC_API_KEY"
+model_strong = "claude-opus-5-5"
+model_small = "claude-haiku-5-5"
+
+[llm.openai_compat]
+# DeepSeek through OpenRouter. The key is in config/secrets.env. Prices per 1M tokens (Nov 2026):
+# v4-pro $0.96 in / $1.91 out, v4-flash $0.09 / $0.18.
+base_url = "https://openrouter.ai/api/v1"
+api_key_env = "OPENROUTER_API_KEY"
+model_strong = "deepseek/deepseek-v4-pro"
+model_small = "deepseek/deepseek-v4-flash"
+# Reasoning counts towards this. A 30 s MIDIgen piece ran out at 16000 (Nov 2026).
+max_tokens = 64000
+timeout_seconds = 900
+
+# A model per stage (pipeline v2, part F), overriding the backend's tier model for that stage only.
+# Keys are stage names; music_* stages use "music", review rounds use "review". Model ids are the
+# backend's own (OpenRouter ids for openai_compat). Prices per 1M tokens in/out, Nov 2026.
+[llm.stage_models]
+# Recommended for the writing (test 8 first): Sonnet 5.5 at $2/$10, about $0.10 a call.
+# outline = "anthropic/claude-sonnet-5.5"
+# screenplay = "anthropic/claude-sonnet-5.5"
+# The editor sees contact sheets: Sonnet 5.5 (~$0.14 an edit) or google/gemini-3.8-flash (~$0.06).
+edit = "anthropic/claude-sonnet-5.5"
+# The reviewer watches the video: Gemini 3.5 Flash Lite, $0.30/$2.50, ~$0.008 per 30 s round.
+# Alternatives: qwen/qwen3.8-omni-flash ($0.15/$0.47), google/gemini-3.8-flash ($0.825/$4.125).
+review = "google/gemini-3.8-flash"
+
+[tools]
+ffmpeg = "ffmpeg"
+ffprobe = "ffprobe"
+# Filled in as the local models get installed (next steps in the README).
+# Whisper: the python of tools/whisper's venv (faster-whisper on the CPU), run by aitv/transcribe.py.
+whisper = "tools/whisper/.venv/bin/python"
+pocket_tts = "tools/pocket_tts/.venv/bin/pocket-tts"
+# english_2026-10 and english_2026-09_2 cloned the scratchy Rasmir voice best (Nov 2026 tests).
+pocket_tts_language = "english_2026-10"
+comfyui = "tools/comfyui"
+comfyui_url = "http://127.0.0.1:8188"
+# General MIDI composition + FluidSynth rendering (~/MIDIgen, its own venv). See ~/MIDIgen/README.md.
+midigen = "/home/mint/MIDIgen/.venv/bin/midigen"
+
+[images]
+# ComfyUI is started by the worker for image jobs and stopped after this long idle.
+idle_shutdown_seconds = 600
+comfyui_args = ["--lowvram"]
+checkpoint = "Realistic_Vision_V5.1_fp16-no-ema.safetensors"
+vae = "vae-ft-mse-840000-ema-pruned.safetensors"
+lcm_lora = "lcm/pytorch_lora_weights.safetensors"
+width = 640
+height = 480
+negative = "text, watermark, signature, blurry, deformed, disfigured, extra limbs, lowres, cartoon"
+
+# GTX 970 timings at 640x480 (Nov 2026 test): draft ~7.6 s, final ~21 s per image.
+[online]
+# Free sources with no keys: Internet Archive, Wikimedia Commons, Openverse (which also
+# serves Freesound's preview MP3s). Downloads are shrunk to video_height lines on arrival.
+user_agent = "aitv-hobby/0.1 (private learning project)"
+max_download_mb = 150
+max_video_minutes = 20
+video_height = 480
+# Storage cap for online downloads. The cleanup job (every cull_every_hours) deletes ones no
+# production used and no World entity links to: anything older than cull_after_days, then the
+# oldest until under cap_gb. Culled assets keep their row and source and can be fetched again.
+cap_gb = 20
+cull_after_days = 30
+cull_every_hours = 6
+# Where the shot plan's stock shots and the sound stage look when the library has nothing.
+stock_video = "archive"
+sfx_max_seconds = 12
+music_max_seconds = 240
+
+[videogen]
+# Image-to-video for generated and World-image shots (OpenRouter /videos). Off = Ken Burns moves.
+# mischief-1: 3 or 5 s clips, 16:9 only (generated shots are made wide, then cropped to 4:3), $0.005/s.
+enabled = true
+base_url = "https://openrouter.ai/api/v1"
+api_key_env = "OPENROUTER_API_KEY"
+model = "tbc/mischief-1"
+durations = [3, 5]
+resolution = "480p"
+size = "854x480"
+# Generated shots are rendered at this wide size; the clip's 4:3 middle is what airs.
+frame_width = 856
+frame_height = 480
+# Recurring characters are pasted in from their reference picture, then the frame is redrawn this
+# lightly so the light and grain match. Above ~0.35 the face drifts (Nov 2026 test).
+blend_denoise = 0.25
+# A shot longer than one clip continues from the last frame of the previous clip, up to this many.
+max_segments = 3
+# The production's own style/era rolls are added after this (never a fixed era).
+prompt_suffix = ", subtle natural movement"
+# Used once when the video service refuses a shot's prompt (it refuses words like "zombie").
+safe_prompt = "a quiet scene, subtle natural movement, static camera"
+poll_seconds = 10
+timeout_seconds = 900
+# Shots with recurring characters or a sound of their own (the plan's clip_sound) go to the talkie
+# model instead: the image-to-image model puts the characters on the set from their reference
+# pictures (4:3, $0.024 a frame, likeness held in the Nov 2026 tests), then HeyGen Video 1 animates
+# that first frame with its own effects and voices ($0.01/s at 480p with a first frame, Nov 2026).
+image_model = "tencent/hy-image-v3.5-preview"
+image_max_references = 3
+talkie_model = "heygen/heygen-video-1"
+talkie_resolution = "480p"
+# One clip per shot, this long at least; a longer shot holds on its last frame.
+talkie_min_seconds = 5
+talkie_max_seconds = 15
+# A refused talkie prompt is retried once with safe_prompt. A made retry is billed like any clip
+# (whether the refused one is billed isn't known); off = a free camera move on the frame instead.
+talkie_retry_refused = false
+
+[whisper]
+# faster-whisper on the CPU (the GTX 970 can't run its GPU build). Whole files came back empty on some
+# AVI/AAC episodes, so audio goes in chunks. Transcripts are cached by file content (`transcripts`).
+model = "small"
+threads = 2
+chunk_seconds = 120
+timeout_seconds = 7200
+
+# ---------------------------------------------------------------- pipeline v2 (docs/pipeline-v2-plan.md)
+
+[edit]
+# off  = today's assembly (clips end to end); nothing below changes a piece
+# auto = the edit decision list (EDL) that equals today's cut, rendered by aitv/edl.py
+# llm  = an editor model writes the EDL from contact sheets ([llm.stage_models] edit), ~$0.06-0.14
+mode = "llm"
+# The edit may run this share of the planned length, shortest to longest.
+min_ratio = 0.75
+max_ratio = 1.25
+
+[qc]
+# Automatic checks after the look (local, free). Never stops a run; issues show on the production page,
+# and a blocking one holds publishing until you press Publish anyway.
+enabled = true
+whisper = true                # transcribe the final and match it to the script (CPU, ~10-20 s for 30 s)
+min_voice_margin_db = 6.0     # a line's voice at least this far above the music and effects under it
+min_line_score = 0.6          # share of a line's words Whisper must hear
+loudness_tolerance_lu = 1.0
+scene_threshold = 0.3
+flash_frames = 3
+black_min_s = 0.3
+freeze_min_s = 1.5
+silence_db = -50
+silence_min_s = 1.5
+read_s_per_word = 0.3
+read_min_s = 1.5
+safe_area = 0.8
+
+[review]
+# A video model watches the final and writes fixes as EDL patches ([llm.stage_models] review). Paid.
+# Patches are only applied with [edit] mode auto or llm; with mode off it writes notes only.
+enabled = true
+max_rounds = 2
+# Money the reviewer may spend on new clips. 0 = shots it wants remade are flagged for you.
+# (Spending it isn't built yet: flagged either way.)
+max_regen_usd = 0.0
+proxy_height = 360
+# Also give the reviewer the sound as text (QC's line levels, Whisper's transcript), for a model that
+# can't hear a video's soundtrack (test 6 finds out).
+audio_as_text = false
+
+[footage]
+# The footage index: real footage found by what's said or shown (part G). Indexing is CPU work in the
+# worker, one file per job, paused while someone is watching ChupTV.
+enabled = false
+# Opt-in folders of the media library, read only. Add one show at a time: Whisper runs ~5x real time.
+roots = []
+sweep_hours = 6
+candidates = 3       # alternatives per footage shot shown to the editor
+lead_s = 0.3         # a footage shot starts this long before the first word
+scene_threshold = 0.3
+
+[mix]
+# Every voice line, effect and music file is measured and brought to voice_lufs first, then the
+# music and sfx buses sit this many dB under the voices. The music is also ducked while anyone talks.
+voice_lufs = -20.0
+# -8 left the music 13.6 dB under the voices while they talk (Vanishing Cream); -10 aims for ~15.
+music_db = -10.0
+sfx_db = -4.0
+# The editor's expr duck goes at least this deep under every line. On top of any duck, the render pulls
+# the bed down further under a line that would still be less than [qc] min_voice_margin_db + 1 over it.
+min_duck_db = -10.0
+# A talkie clip's own soundtrack is laid in as it came, this many dB down (not measured first).
+clip_db = -3.0
+
+[mix.duck]
+# Sidechain compressor on the music, keyed on the voices (FFmpeg sidechaincompress).
+threshold = 0.03
+ratio = 4
+attack_ms = 20
+release_ms = 400
+# Peak limit on the finished mix (linear, 0.35 = -9 dBFS), leaving room to raise it to broadcast loudness.
+limit = 0.35
+
+[render]
+# Shot stills use this image preset (final ~21 s each on the GTX 970; draft ~8 s).
+still_preset = "final"
+fps = 30
+
+[images.presets.draft]
+steps = 6
+cfg = 1.5
+sampler = "lcm"
+scheduler = "sgm_uniform"
+lcm = true
+
+[images.presets.final]
+steps = 20
+cfg = 6.0
+sampler = "dpmpp_2m"
+scheduler = "karras"
+lcm = false
+
+# Starting prompts per World entity type; {name} and {description} are filled in, and the
+# prompt can be edited before generating. SD 1.5 follows short, visual prompts best.
+[images.prompts]
+character = "head and shoulders portrait photograph of {description}, 1980s, plain studio background, film grain"
+voice = "head and shoulders portrait photograph of {description}, 1980s, plain studio background, film grain"
+presenter = "television presenter, {description}, 1980s news studio, film grain"
+set = "wide shot of {description}, 1980s television sitcom set, warm lighting, film grain"
+product = "product photograph of {name}, {description}, 1980s advertisement, studio lighting"
+brand = "1980s print advertisement for {name}, {description}"
+fake_show = "promotional still for the 1980s television show {name}, {description}, film grain"
+hotline = "1980s late night television commercial still, {description}, telephone, film grain"
+prop = "product photograph of {description}, plain background, 1980s"
+
+# Added to the negative prompt per entity type. SD 1.5 loves modern flat-screen TVs.
+[images.negative_extra]
+set = "flat screen television, modern furniture, led lights"
+fake_show = "flat screen television, smartphone"
+hotline = "smartphone, flat screen"
+
+[publish]
+# Finished productions go on air: copied into the media library where the director's catalog
+# expects them, then catalogued by the director's own code (chuptv catalog publish). A production
+# is published only when asked (the make form's checkbox or the production page's Publish button).
+director = "~/chuptv_director/.venv/bin/chuptv"
+# Where each kind of piece goes. {brand} is the subject's name, lowercased (one folder per brand
+# series); {name} the production title as a file name. First match wins: format, then ad_type.
+places = [
+  { format = "parody_commercial", ad_type = "fake_show", dir = "/mnt/media/chuptv/promos/trailers", kind = "promo" },
+  { format = "parody_commercial", dir = "/mnt/media/commercials/{brand}", kind = "commercial" },
+  # Make-form pieces: filed by what the outline (or a "type" tag) says they're for.
+  { format = "freeform", ad_type = "fake_show", dir = "/mnt/media/chuptv/promos/trailers", kind = "promo" },
+  { format = "freeform", ad_type = "product", dir = "/mnt/media/commercials/{brand}", kind = "commercial" },
+  { format = "freeform", ad_type = "hotline", dir = "/mnt/media/commercials/{brand}", kind = "commercial" },
+  { format = "*", dir = "/mnt/media/chuptv/shows/ai_tv", kind = "generated" },
+]
